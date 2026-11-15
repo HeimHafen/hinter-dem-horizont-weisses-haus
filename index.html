@@ -23,11 +23,12 @@
     @media(max-width:670px){#legend{display:none}header{max-width:calc(100% - 32px)}h1{font-size:22px}header p{font-size:12px}#info{max-width:180px;bottom:calc(max(15px,env(safe-area-inset-bottom)) + 161px)}}
     @media(max-width:390px){#toolbar{grid-template-columns:minmax(0,1fr) auto}#top-view{padding:0 9px;font-size:13px}#status{font-size:11px}}
   </style>
+  <script src="./src/fallback3d.js?v=a011" defer></script>
   <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js"}}</script>
 </head>
 <body>
   <div id="scene"></div>
-  <header><h1>Hinter dem Horizont</h1><p>Weißes Haus · Architekturstudie A0.1<br>Maßstabsbasis: Executive Residence</p></header>
+  <header><h1>Hinter dem Horizont</h1><p>Weißes Haus · Architekturstudie A0.1.1<br>Maßstabsbasis: Executive Residence</p></header>
   <div id="legend">Nur Architektur<br>Öffentliche Räume: schematisch<br>Private Geschosse: nur Hülle</div>
   <div id="info">Ansicht ziehen · Zwei Finger zum Zoomen</div>
   <div id="status" role="status">3D-Modell wird aufgebaut …</div>
@@ -100,9 +101,16 @@
       addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
       const hash=new URLSearchParams(location.search).get('floor');if(hash&&[...selected.options].some(x=>x.value===hash))selected.value=hash;
       applyMode(selected.value);
-      let frame=0;function draw(){frame=requestAnimationFrame(draw);renderer.render(scene,camera);}draw();
+      let frame=0;function draw(){
+        renderer.render(scene,camera);
+        if(!window.__architecture3DReady){
+          window.__architecture3DReady=true;
+          window.__architectureFallback?.stop();
+        }
+        frame=requestAnimationFrame(draw);
+      }draw();
       addEventListener('pagehide',()=>{cancelAnimationFrame(frame);renderer.dispose();});
-    }catch(e){console.error(e);error.style.display='block';error.textContent='3D-Ansicht konnte nicht gestartet werden: '+e.message;status.textContent='Start fehlgeschlagen';}
+    }catch(e){console.error('WebGL-Ansicht nicht verfügbar:',e);document.querySelectorAll('#scene canvas:not(#local-3d-fallback)').forEach(element=>element.remove());error.style.display='none';status.textContent='Lokale 3D-Ansicht wird aktiviert.';window.__architectureFallback?.start();}
   </script>
 </body>
 </html>
