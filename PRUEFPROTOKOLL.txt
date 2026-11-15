@@ -1,0 +1,75 @@
+PASS Datei index.html
+PASS Datei spielfigur.js
+PASS Datei cross-hall-v6.js
+PASS Datei cross-hall-carpet-v7.js
+PASS Datei cross-hall-furniture-v6.js
+PASS Datei Weisses-Haus-Innen.glb
+PASS Datei assets/crosshall/portrait_links.jpg
+PASS Datei assets/crosshall/portrait_rechts.jpg
+PASS Datei assets/crosshall/floor_marble_v3.jpg
+PASS Datei assets/crosshall/floor_normal_v4.jpg
+PASS Datei assets/crosshall/floor_roughness_v4.jpg
+PASS Datei assets/crosshall/wall_marble_v3.jpg
+PASS Datei assets/crosshall/wall_normal_v4.jpg
+PASS Datei assets/crosshall/column_marble_v3.jpg
+PASS Datei assets/crosshall/carved_frieze_v3.png
+PASS Datei assets/crosshall/ceiling_rosette_v3.png
+PASS Datei assets/crosshall/models/console_gold_3d.glb
+PASS Datei assets/crosshall/models/console_walnut_3d.glb
+PASS Datei assets/crosshall/models/hydrangea_bouquet_3d.glb
+PASS Datei assets/crosshall/models/porcelain_urn_3d.glb
+PASS Datei assets/crosshall/carpet_v7/CrossHall_Teppich_V7_REAL3D.glb
+PASS Datei assets/crosshall/carpet_v7/teppich_normal_v7.jpg
+PASS Datei assets/crosshall/carpet_v7/teppich_rauheit_v7.png
+PASS Datei assets/crosshall/carpet_v7/teppich_farbe_v7.jpg
+PASS HTML nutzt Weisses-Haus-Innen.glb
+PASS HTML nutzt cross-hall-v6.js
+PASS HTML nutzt cross-hall-furniture-v6.js
+PASS HTML nutzt cross-hall-carpet-v7.js
+PASS HTML nutzt spielfigur.js
+PASS Direkter Start in Cross Hall
+PASS Kein Burg-Modell beim Start
+PASS 3D-Assetfehler sichtbar
+PASS Nur eine 3D-Teppich-Version
+PASS GLB gültig Weisses-Haus-Innen.glb — 17,176 Dreiecke
+PASS GLB gültig assets/crosshall/models/console_gold_3d.glb — 14,908 Dreiecke
+PASS GLB gültig assets/crosshall/models/console_walnut_3d.glb — 14,908 Dreiecke
+PASS GLB gültig assets/crosshall/models/hydrangea_bouquet_3d.glb — 78,476 Dreiecke
+PASS GLB gültig assets/crosshall/models/porcelain_urn_3d.glb — 15,160 Dreiecke
+PASS GLB gültig assets/crosshall/carpet_v7/CrossHall_Teppich_V7_REAL3D.glb — 28,316 Dreiecke
+PASS Bild lesbar assets/crosshall/portrait_links.jpg
+PASS Bild lesbar assets/crosshall/portrait_rechts.jpg
+PASS Bild lesbar assets/crosshall/floor_marble_v3.jpg
+PASS Bild lesbar assets/crosshall/floor_normal_v4.jpg
+PASS Bild lesbar assets/crosshall/floor_roughness_v4.jpg
+PASS Bild lesbar assets/crosshall/wall_marble_v3.jpg
+PASS Bild lesbar assets/crosshall/wall_normal_v4.jpg
+PASS Bild lesbar assets/crosshall/column_marble_v3.jpg
+PASS Bild lesbar assets/crosshall/carved_frieze_v3.png
+PASS Bild lesbar assets/crosshall/ceiling_rosette_v3.png
+PASS Bild lesbar assets/crosshall/carpet_v7/teppich_normal_v7.jpg
+PASS Bild lesbar assets/crosshall/carpet_v7/teppich_rauheit_v7.png
+PASS Bild lesbar assets/crosshall/carpet_v7/teppich_farbe_v7.jpg
+PASS Teppich x-Länge passend
+PASS Teppich z-Breite passend
+PASS Teppich hat Dicke
+PASS Möbelposition Mahagoni NW — x=-6.75m z=7.11m
+PASS Möbelposition Mahagoni S1 — x=-3.56m z=0.87m
+PASS Möbelposition Mahagoni S2 — x=3.65m z=0.87m
+PASS Möbelposition Vergoldet S3 — x=10.80m z=0.87m
+PASS Möbelposition Vergoldet N2 — x=6.75m z=7.11m
+PASS Keine Möbeldopplung Mahagoni NW/Mahagoni S1
+PASS Keine Möbeldopplung Mahagoni NW/Mahagoni S2
+PASS Keine Möbeldopplung Mahagoni NW/Vergoldet S3
+PASS Keine Möbeldopplung Mahagoni NW/Vergoldet N2
+PASS Keine Möbeldopplung Mahagoni S1/Mahagoni S2
+PASS Keine Möbeldopplung Mahagoni S1/Vergoldet S3
+PASS Keine Möbeldopplung Mahagoni S1/Vergoldet N2
+PASS Keine Möbeldopplung Mahagoni S2/Vergoldet S3
+PASS Keine Möbeldopplung Mahagoni S2/Vergoldet N2
+PASS Keine Möbeldopplung Vergoldet S3/Vergoldet N2
+PASS Sitzgruppen von Türen weggerückt
+PASS Stehleuchten nicht mehr vor Gemälden
+PASS Südliche Wandlampen umpositioniert
+
+Ergebnis: 73 bestanden, 0 Fehler
