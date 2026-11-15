@@ -1,5 +1,5 @@
 /**
- * Hinter dem Horizont — Cross Hall | begehbarer Architektur-Ausbau V5 (15.11.2026).
+ * Hinter dem Horizont — Cross Hall | architektonische Raumachsen WH-1.1 (15.11.2026).
  * Geometrische, spielbare Annäherung an die vom Nutzer freigegebene Bildvorlage.
  * KEINE zentimetergenaue Vermessung des realen Weißen Hauses und kein Foto-Hintergrund.
  * Halle: X = Längsachse, Z = Breite; Hallenfußboden bei Y = 0.89.
@@ -7,7 +7,7 @@
  */
 export function baueCrossHallV5(THREE, scene, exterior, renderer, obstacles, assets={}) {
   const hall = new THREE.Group();
-  hall.name='CrossHall_Architektur_V5_20261115';
+  hall.name='CrossHall_Architektur_WH11_20261115';
   exterior.add(hall);
   const F=.90, C=4.62, minX=-17.82, maxX=17.82;
   const white=new THREE.MeshStandardMaterial({color:0xf5ebe0,roughness:.79});
@@ -149,9 +149,10 @@ export function baueCrossHallV5(THREE, scene, exterior, renderer, obstacles, ass
   const columnMap=assets.column || wallTex.clone();columnMap.needsUpdate=true;
   const columnMat=new THREE.MeshPhysicalMaterial({map:columnMap,color:0xfff9f3,roughness:.37,clearcoat:.27,envMap:assets.environment||null,envMapIntensity:.35});
 
-  // Mask fictional green/red/navy south-room facades, leaving the original real navigable doors open.
+  // Historischer Raumzusammenhang: NUR Red, Blue, Green an der Südseite.
+  // West und Ost werden am Ende des Flurs erreicht, NICHT über zwei weitere Südtüren.
   // Each blank span is a true 3D front layer in front of the original painted wall.
-  const doors=[-14.4,-7.2,0,7.2,14.4], breaks=[-17.90];
+  const doors=[-7.2,0,7.2];
   const spans=[];let cursor=-17.88;
   for(const door of doors){
     const a=door-1.115,b=door+1.115;
@@ -418,20 +419,22 @@ export function baueCrossHallV5(THREE, scene, exterior, renderer, obstacles, ass
     bouquet(px,1.17,pz,.48,true);
   }
 
-  // Match formal entrances at the opposite end as well (no dead generic blank wall).
+  // East Room: offene Stirnverbindung. Die vorherige massive Holztür
+  // überdeckte den gesamten Durchgang und wurde entfernt.
   xPortal(17.73,3.95,-1);
-  // Thick dark walnut doors remain decorative at the positive end, not over the new distant vista.
-  sq(17.58,2.38,3.95,.075,2.57,2.31,walnut);
-  for(const zz of [3.41,4.48])for(const y of [1.66,2.38,3.11]){
-    sq(17.51,y,zz,.045,.48,.79,antiqueGold);
-    sq(17.48,y,zz,.040,.40,.71,walnut);
+  for(const side of [-1,1]){
+    const zz=3.95+side*1.17;
+    sq(17.50,2.24,zz,.10,2.54,.075,walnut);
+    for(const y of [1.60,2.26,2.92]){
+      sq(17.45,y,zz,.035,.47,.068,antiqueGold);
+    }
   }
   // Narrow low sconces cast a little warm bounce near the open vista.
   // This is localized; none of the existing exterior/sun lighting is changed.
   const vistaLight=new THREE.PointLight(0xffd9a8,1.25,5.5,2);
   vistaLight.position.set(-18.5,3.35,3.95);scene.add(vistaLight);
   // Main room doors: detailed dark walnut panels, but BEHIND the wall openings.
-  // They read as partially open doors yet do not obstruct walking into the five rooms.
+  // They read as partially open doors yet do not obstruct the three salons.
   for(const d of doors){
     for(const side of [-1,1]){
       const z=-.20;
@@ -705,17 +708,15 @@ export async function ladeCrossHallAssetsV5(THREE, renderer) {
 
 /** Collision planes for the actual walls, not only furniture. */
 export function versperrtCrossHallV5(px,pz) {
-  if(px < -20.40 || px > 17.8 || pz < -.32 || pz > 8.20) return false;
-  // Full-width wall along the five state-room entrances, interrupted at each door.
+  // Distinct from the full obstacle list: collision zones for the corridor's
+  // THREE Southern entrances and the northern colonnade. The wall geometry at
+  // both EAST/WEST ends is checked by the partition() obstacles in index.html.
+  if(Math.abs(px)>17.79 || pz<-.32 || pz>8.20)return false;
   if(pz>=-.21 && pz<=.50){
-    const offen=[-14.4,-7.2,0,7.2,14.4].some(cx=>Math.abs(px-cx)<.68);
-    if(!offen) return true;
+    const southEntrance=[-7.2,0,7.2].some(cx=>Math.abs(px-cx)<.66);
+    if(!southEntrance)return true;
   }
-  // Colonnade opening to the north hall; the outer walls remain solid.
-  if(pz>=7.38 && pz<=8.18 && Math.abs(px)>4.85) return true;
-  // Positive end is a closed period timber doorway, negative end is open.
-  if(px>=17.32 && pz>=.49 && pz<=7.38) return true;
-  // The image's distant window room is accessible only through the west portal.
-  if(px<=-17.72 && pz>=.49 && pz<=7.38 && (pz<2.84 || pz>5.06)) return true;
+  // The original northern hall keeps a wide open central colonnade.
+  if(pz>=7.38&&pz<=8.18&&Math.abs(px)>4.85)return true;
   return false;
 }

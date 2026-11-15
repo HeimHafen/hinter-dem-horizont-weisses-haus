@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Hinter dem Horizont · Weißes Haus</title>
-<meta name="build" content="Weisses-Haus-Neustart · 2026-11-15 · Stand WH-1.0">
+<meta name="build" content="Weisses-Haus-Neustart · 2026-11-15 · Stand WH-1.1">
 <meta name="theme-color" content="#202923">
 <meta name="description" content="Begehbares 3D-Weißes-Haus mit Cross Hall, echtem 3D-Teppich und GLB-Möbeln.">
 <style>
@@ -35,7 +35,7 @@ canvas{display:block;touch-action:none}header{max-width:calc(100% - 32px);overfl
 <script type="module">
 import * as THREE from 'three';
 import {baueSpielfigur} from './spielfigur.js?v=2';
-import {baueCrossHallV5,ladeCrossHallAssetsV5,versperrtCrossHallV5} from './cross-hall-v6.js?v=7-carpet';
+import {baueCrossHallV5,ladeCrossHallAssetsV5,versperrtCrossHallV5} from './cross-hall-v6.js?v=wh11-plan';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {setzeHistorischeKonsolenV6} from './cross-hall-furniture-v6.js?v=61';
 import {ladeCrossHallTeppichV7} from './cross-hall-carpet-v7.js?v=7';
@@ -718,13 +718,31 @@ async function start(){
   // Alter einfacher Teppich entfernt: der echte V7-GLB-Laeufer liegt an dieser Stelle.
 
   surface(0,4.73,0,36,.12,16,plaster);
-  // Reference-image vista: split the western end wall, keeping the historic-style portal visually open.
-  partition(-18,-2.66,.24,10.68,plaster);
-  partition(-18,6.62,.24,2.76,plaster);
-  surface(-18,4.24,3.96,.24,.90,2.56,plaster);
-  partition(18,0,.24,16,plaster);
-  partition(0,-8,36,.24,plaster);
-  // Wide opening to the Entrance Hall: replaces the fictional almost-solid wall.
+  // WH-1.1 | Grundrisskorrektur nach NPS State Floor und WHHA.
+  // SOUTH z<0: exakt drei Haupt-Salonzugänge (Red, Blue, Green).
+  // WEST x<0 / EAST x>0: Zugang zu State Dining Room / East Room
+  // über die jeweiligen Stirnseiten der Cross Hall. Die beiden Seitenräume
+  // sind vorerst nur geometrische Annäherungen, keine vermessenen Rekonstruktionen.
+  // Zwei Öffnungen pro Stirnseite: Cross-Hall-Portale (z=3.96) und ein
+  // seitlicher Verbindungsdurchgang zu den bereits existierenden Endraum-Bays.
+  for(const side of [-1,1]){
+    const endX=side*18;
+    partition(endX,-6.575,.24,2.85,plaster);  // z -8.00 .. -5.15
+    partition(endX,-.085,.24,5.53,plaster);   // z -2.85 .. 2.68
+    partition(endX,6.62,.24,2.76,plaster);   // z 5.24 .. 8.00
+    // Kopfstücke oberhalb der beiden begehbaren Öffnungen.
+    surface(endX,3.78,-4.0,.24,1.82,2.30,plaster);
+    surface(endX,4.24,3.96,.24,.90,2.56,plaster);
+    // Die beiden quer zur Halle gelegenen Raumstreifen bleiben als
+    // später auszubauende Eingangszonen innerhalb der Originalfassade.
+    surface(side*20.57,.82,0,5.30,.14,15.70,marble);
+    surface(side*20.57,.893,0,5.25,.008,15.62,hallFloor);
+    surface(side*20.57,4.66,0,5.30,.10,15.72,plaster);
+    partition(side*20.57,7.96,5.30,.23,plaster);
+  }
+  // Südwand muss auch die beiden Seitenräume sauber schließen.
+  partition(0,-8,46.4,.24,plaster);
+  // Kolonnade: große, durchgehende Verbindung zur Entrance Hall.
   partition(-11.55,7.96,12.9,.23,plaster);
   partition(11.55,7.96,12.9,.23,plaster);
   surface(0,4.29,7.96,10.3,.68,.23,plaster);
@@ -1005,7 +1023,12 @@ async function start(){
       m.color.setHex(0xe9d8bc);
       m.roughness=.76;
     }
-    openingWall(room.x,0,7.2,1.74,m);
+    if(index===0||index===4){
+      // Endräume: KEINE fünfte/vierte Südtür zur Cross Hall.
+      partition(room.x,0,7.2,.23,plaster);
+    }else{
+      openingWall(room.x,0,7.2,1.74,m);
+    }
     if(index)partition(room.x-3.6,-4,.24,8,plaster);
     if(index===2){
       ovalWalls(m);
@@ -2061,9 +2084,9 @@ async function start(){
     if(Math.abs(px)>31||pz>51.5||pz< -7.8)return false;
     if(pz>=7.96&&pz<12.43&&(Math.abs(px)>1.23||door.rotation.y<1.45))return false;
     if(versperrtCrossHallV5(px,pz))return false;
-    if(pz<8&&px>17.8)return false;
-    if(pz<8&&px<-20.4)return false;
-    if(pz<8&&px<-17.8&&(pz<2.86||pz>5.04))return false;
+    // Ost-/Westraum: begehbare Zugänge über Stirnportale. Ihre Rückwände
+    // und die beiden Durchgänge werden durch partition()-Kollisionen begrenzt.
+    if(pz<8&&Math.abs(px)>23.02)return false;
     if(ovalBoundary.some(point=>Math.hypot(px-point.x,pz-point.z)<.33))return false;
     if(obstacles.some(({x:cx,z:cz,w,d})=>Math.abs(px-cx)<w/2+.21&&Math.abs(pz-cz)<d/2+.21))return false;
     if(pz>12.75&&pz<17.75&&Math.abs(Math.abs(px)-7.7)<.42)return false;
@@ -2116,7 +2139,9 @@ async function start(){
       camera.rotation.set(pitch,yaw,0,'YXZ');
     }
     let roomName='Cross Hall';
-    if(z<-.35){const i=Math.max(0,Math.min(4,Math.floor((x+18)/7.2)));roomName=rooms[i].name;}
+    if(x<-18.05&&z<7.8)roomName='State Dining Room · Übergangsbereich';
+    else if(x>18.05&&z<7.8)roomName='East Room · Übergangsbereich';
+    else if(z<-.35){const i=Math.max(0,Math.min(4,Math.floor((x+18)/7.2)));roomName=rooms[i].name;}
     else if(z>=19)roomName='Weißes Haus · Außenanlage';
     else if(z>=12)roomName='Weißes Haus · Nordportikus';
     else if(z>=7.8)roomName='Entrance Hall';
