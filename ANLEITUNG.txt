@@ -1,0 +1,10 @@
+A0.1.8 – Working Copy
+
+1) Den funktionierenden Stand A0.1.7 sichern.
+2) In Working Copy einen neuen Testbranch test/nordportiko-a018 auf Basis der aktuellen Version anlegen und aktivieren.
+3) ZIP entpacken, index.html im Repo-Hauptordner ersetzen; assets/Weisses-Haus-Nord-A018.glb in assets/ ablegen. Vorherige GLBs nicht löschen.
+4) Beide Dateien committen.
+5) Remote-Referenz refs/heads/test/nordportiko-a018, Force Push Aus.
+6) Für GitHub Pages Test auf diesem Branch Pages-Quelle vorübergehend entsprechend umstellen oder nach Abnahme in main übernehmen.
+
+Prüfen: Dachkante links/rechts, Türzarge, Säulenfüße/Stufenränder, Frontalansicht.
