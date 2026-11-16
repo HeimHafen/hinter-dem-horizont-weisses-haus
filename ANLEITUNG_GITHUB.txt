@@ -1,0 +1,11 @@
+NORD-FASSADE A0.1.4 – GitHub Pages
+
+1. ZIP entpacken.
+2. index.html direkt in den Hauptordner deines GitHub-Repositorys hochladen.
+3. assets/Weisses-Haus-Nord-A014.glb unter genau diesem Pfad hochladen.
+4. Commit auf dem für Pages verwendeten Branch (z. B. main).
+5. In Safari deine echte GitHub-Pages-Adresse öffnen und ggf. ?v=a014 anhängen.
+6. Die Tasten Nordfassade / Portiko-Details testen.
+
+Bitte den alten Stand als Sicherung behalten.
+Qualität: 3D-Architekturmodell verbessert, jedoch nicht fotorealistisch 1:1.

@@ -1,21 +1,31 @@
-# QA-Bericht – Architektur A0.1
+# Prüfbericht Nordfassade A0.1.4
 
-Prüfdatum: 16.11.2026
+**Prüfumfang:** bestehendes Projekt A0.1.3 als Ausgangspunkt, das vom Nutzer vorgegebene Nordfassaden-Bild als visuelle Referenz.
 
-## Erfolgreich
+| Prüfpunk | Ergebnis |
+| --- | --- |
+| Original-3D-Geometrie im GLB vorhanden | 623 ursprüngliche Meshes erhalten |
+| Zusätzliche Detailgeometrie | 16 optimiert gruppierte Meshes, +42.540 Dreiecke |
+| Gesamtmodell | 639 Meshes, 59.716 Dreiecke |
+| Materialdaten | 24 Materialien im GLB enthalten |
+| GLB-Version/Integrität | GLB 2, geparst und mit trimesh eingelesen |
+| JavaScript-Syntax | `node --check` erfolgreich |
+| Lokaler Canvas-Browsertest | Modell geladen, Vorderansicht und Portiko-Detailansicht sichtbar, keine JS-Fehler |
+| Test mit echten iPhone-WebGL | **noch nicht durchgeführt** |
+| Pixelgenaue Fotoübereinstimmung | **nicht erreicht**; Materialien und historische Maße nur angenähert |
+| Tatsächliche Historientreue | nicht abschließend verifiziert; Referenzbild ist nicht gleichbedeutend mit einem amtlichen Grundriss |
 
-- 88 automatisierte **statische** Prüfungen für Quelldateien, Geschoss-IDs, belegte Außenabmessungen, Raumpositionen **innerhalb des Modellrahmens**, Quellpfade und fehlende alte Burg-/Möbelmodule.
-- JavaScript-Quellmodule und Inline-Modul bestehen `node --check`.
-- Außenmaße im Datenmodell: 51,2 m × 26,1 m (Executive Residence ohne Portiken), nach WHHA.
-- Zwei öffentlich beschriebene Hauptgeschosse als getrennte modellierbare Bauteilgruppen; vier weitere Ebenen nur als Hüllen.
-- Nord-/Südportiko und Truman-Balkon als echte 3D-Bauteile (vereinfachte historische Annäherungen).
-- Keine alte Cross-Hall-Dekoration und kein Burgmodell in der Webseite.
+**Hinweis:** Der Browser-Screenshot stammt aus dem Canvas-Ersatzrenderer; dessen grobe Sortierung transparenter und überlappender 3D-Oberflächen erzeugt erkennbare Dreiecksartefakte. Ein GPU-WebGL-Test bleibt für die optische Abnahme zwingend notwendig.
 
-## NICHT erfolgreich vollständig geprüft
+## Nächste notwendige Qualitätsrunde
 
-- WebGL-Livebild in Safari / Chrome. Lokaler automatisierter Chromium-Test konnte nicht abgeschlossen werden. Die Umgebung konnte außerdem `cdn.jsdelivr.net` nicht auflösen.
-- Kollisionen, begehbare Treppen, Raum-zu-Raum-Wege, iPhone-Bildrate, Touch-Steuerung am echten Gerät.
-- Zentimetergenaue Innenwandpositionen, Türgrößen, Fensterachsen, Außentreppe und Balkonprofile gegen Originalpläne.
-- Genauigkeit/Verfügbarkeit sämtlicher 132 Räume, privater Geschosse und Unterebenen.
+1. Echte Stein-/Marmor-PBR-Textur mit Normal- und Rauigkeitskarten, Materialmaßstab kontrollieren.
+2. Giebel und Säulenkapitelle anhand von Nahaufnahmen geometrisch verfeinern.
+3. Korrekte optische Fensterproportionen, Quaderungen und Eingangslaibung an vermessenen Bauplänen prüfen.
+4. WebGL-Darstellung, Tiefentest, Reflektionen und iPhone-Performance auf echter Hardware abnehmen.
 
-**Abnahmeentscheidung:** Als überprüfbares **Architektur-Projektgerüst** geeignet. Nicht als historisch maßstabsgetreuer Vollnachbau freigegeben. Nicht ungeprüft an Stelle der funktionierenden WH-1.1-Liveversion einsetzen.
+## Öffentliche Architekturquellen
+
+- National Park Service: https://www.nps.gov/whho/planyourvisit/park-brochure.htm
+- Historic American Buildings Survey (Library of Congress): https://tile.loc.gov/storage-services/master/pnp/habshaer/dc/dc0400/dc0402/data/dc0402cap.pdf
+- NPS Nordportiko: https://www.nps.gov/whho/planyourvisit/viewing-the-white-house.htm

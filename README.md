@@ -1,46 +1,44 @@
-# Hinter dem Horizont – Weißes Haus | Architektur A0.1
+# Hinter dem Horizont – Nordfassade A0.1.4
 
-**Stand: 16.11.2026 · eigenständiger GitHub-Pages-Prüfstand**
+## Was enthalten ist
 
-Diese Version baut bewusst **nur die Architektur** der zentralen *Executive Residence* des Weißen Hauses auf. Keine Möbel, Personen, Teppiche, Gemälde oder bisherige Cross-Hall-Dekoration. Die bisherige WH-1.1-Version wird **nicht** überschrieben; eine separate ZIP-Sicherung ist sinnvoll.
+- `index.html`: unabhängige 3D-Architekturansicht, **keine externen JavaScript-Bibliotheken**.
+- `assets/Weisses-Haus-Nord-A014.glb`: vorhandenes Weißes Haus (623 ursprüngliche Bauteilgruppen) mit **16 gruppierten, zusätzlich modellierten Architekturmaterial-/Geometriegruppen** für die Nordfassade.
 
-## Was tatsächlich vorhanden ist
+Die GLB-Datei enthält **reale 3D-Geometrie**, nicht bloß eine Fototapete. Ergänzt wurden Giebel- und Gesimsprofile, ionische Kapitellverzierungen, Fenstereinfassungen mit Sprossen, ein zweiflügeliges Eingangsportal mit Bogenoberlicht, Treppenkörper mit Stufenkanten, Dachbaluster, Quaderungen, Schornsteine, 3D-Laterne und Flaggengeometrie.
 
-- Dreidimensionales Bauvolumen mit **51,2 × 26,1 m** äußerem Grundmaß (ohne Portiken), basierend auf der White House Historical Association.
-- Sechs auswählbare Gebäudeebenen als unabhängig verwaltete 3D-Bauteile.
-- Für die öffentlich dokumentierten Ground-/State-Floors: beschriftete Hauptbereiche und räumliche, **schematisch gesetzte** Trennwände.
-- Drei zentrale Salons: Red, Blue, Green; westlicher State Dining Room, östlicher East Room; Entrance Hall und Cross Hall.
-- Ground-Floor-Hauptbereiche: Map Room, Diplomatic Reception Room, China Room, Vermeil Room, Library sowie Corridor.
-- Außenansicht mit Fassadenrhythmus, Fenster-/Türandeutungen, Nord-/Südportiko, einem Truman-Balkon und einem Dachkörper.
-- Auswahl der Etage, Draufsicht, schräg drehbare 3D-Ansicht, Einfinger-Drehung und Zweifinger-Zoom für Safari/Chrome.
+## In GitHub Pages hochladen
 
-## Was **nicht** als exakt gelten darf
+1. Sicherheitskopie des bisherigen GitHub-Repositorys behalten.
+2. ZIP entpacken; **`index.html` direkt im Repository-Stamm** ablegen.
+3. Den Ordner `assets/` inklusive `Weisses-Haus-Nord-A014.glb` unverändert hochladen.
+4. Die bestehende `index.html` ersetzen. Die vorherige GLB-Datei bleibt bei Bedarf als Sicherung erhalten.
+5. Unter GitHub **Settings → Pages** prüfen, ob `main` / `/(root)` veröffentlicht wird.
+6. Webseite in Safari öffnen. **Nicht** die `index.html` aus der Dateien-App öffnen.
 
-- **Die Innenwand-, Tür- und Geschosshöhen sind noch keine aus Originalzeichnungen vermessenen Werte.** Es handelt sich um überprüfbare Architektur-Platzhalter – nicht um eine fertiggestellte 1:1-Rekonstruktion.
-- Nicht öffentlich dokumentierte private Bereiche, zusätzliche Untergeschosse, ihre Räume, Stufen und Wege werden **nicht erraten**. Das ist im Geschosswähler erkennbar.
-- Die öffentliche Grundrissstruktur beschreibt die allgemein bekannten Haupträume; sie vervollständigt **nicht** automatisch alle 132 Räume.
-- Fassadenfenster, Säulen, Portiken und der Balkon sind dreidimensional, aber in diesem ersten Stand **noch nicht** bis zu jedem Profil vermessen.
-- Der aktuelle Ostflügel-Um-/Neubau gehört ausdrücklich **nicht** zum Modell. Scope ist der historische zentrale Wohnbau.
-- Kein beglaubigter Baubescheid, keine heutige technische Bauausführung, keine Sicherheits- oder Zugangsdokumentation.
+**Kontrollanzeige:** `Nordfassade A0.1.4` und nach dem Laden `639 Bauteilgruppen`.
 
-## Installation auf GitHub Pages
+## Bedienung
 
-1. Das ZIP entpacken und **alle Dateien und Ordner daraus** in einen neuen Testbranch oder ein neues Repository hochladen.
-2. `index.html` muss direkt im Repository-Hauptverzeichnis stehen.
-3. Repository → **Settings → Pages** → `Deploy from a branch`, Branch `main` (oder freigegebener Testbranch), Folder `/(root)`.
-4. Nach erfolgreicher Bereitstellung die URL auf iPhone und Desktop öffnen.
-5. Die `State Floor`-Ansicht öffnen, Raumlabels/Wände sowie die Außenansicht vergleichen und die Abweichungen dokumentieren.
+- `Nordfassade`: Vorderansicht.
+- `Portiko-Details`: näher an Säulen, Tür und Giebel.
+- `Südfassade`: gegenüberliegende Seite, aus ursprünglicher Version.
+- `Übersicht`: schräger Blick.
+- Fingerbewegung dreht, Zweifinger-Geste zoomt; auf Desktop auch Mausrad.
 
-`src/haus3d.js` erstellt reale 3D-Geometrie im Browser; `src/bauplan.js` enthält die Datensätze und ihre Qualitätskennzeichnung. Ein klassischer Blender-GLB-Export der **vollständigen** Architektur gehört erst zur Phase mit validierten Wänden.
+## Genauigkeit / Grenzen
 
-**Drittbibliothek:** Three.js r170 wird von jsDelivr geladen. Für einen reinen Offlinebetrieb muss sie zukünftig lokal eingebunden werden.
+**Das Ergebnis ist ein Architektur-Ausbau, keine fotorealistische 1:1-Rekonstruktion.** Das hochgeladene Referenzbild ist eine gerenderte Darstellung ohne vermessene Bauzeichnungen. Abstände und Detailgrößen wurden an die vorhandenen Modelleinheiten angepasst und auf die Ansicht abgestimmt, nicht millimetergenau historisch vermessen. Materialien werden aktuell als vereinfachte GLB-PBR-Farbwerte im eigenen Viewer wiedergegeben; hochwertige photogrammetrische Oberflächen, realistische Reflexion und dynamische Schatten fehlen. In der Umgebung konnte nur der **Canvas-2D-Ersatzrenderer** tatsächlich getestet werden; iPhone-Safari-WebGL muss noch überprüft werden.
 
-### Entwicklungssystem
+## Technisches
 
-- **Nicht ohne visuelle Freigabe in `main` übernehmen**.
-- Zuerst Baukörper/Fassaden dokumentieren und überprüfen.
-- Danach Ground Floor und State Floor anhand überprüfter öffentlicher Pläne.
-- Danach öffentlich belegte Treppen- und Terrassenelemente, Etagenübergänge und begehbare Navigation.
-- Erst **nach Abschluss der Architektur** Materialien, Bilder, Möbel und Beleuchtung.
+- Standalone Viewer aus A0.1.3 erweitert.
+- GLB wird per lokalem relativem Pfad geladen, ohne CDN.
+- GLB `node.matrix` oder `translation/scale/rotation` wird unterstützt.
+- GLB-Primitives ohne `NORMAL` bekommen geometrisch berechnete Flächennormalen.
+- Materialfarben stammen aus dem GLB statt einer festen Acht-Farben-Liste.
+- Keine Ergänzungen an Innenräumen oder an der Südgestaltung, abgesehen von bestehenden Modellbestandteilen und den vom Norden sichtbaren Schornsteinen.
 
-Mehr: `docs/QUELLEN_UND_GRENZEN.md`, `docs/ABNAHMEPLAN.md`, `qa/PRUEFBERICHT.md`.
+## Dateiprüfung
+
+Siehe `docs/PRUEFBERICHT.md` für die statischen Befunde.
