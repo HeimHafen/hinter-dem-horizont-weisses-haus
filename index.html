@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
 <meta name="theme-color" content="#18251f"/>
 <meta name="description" content="Hinter dem Horizont – Nordfassade: Nordtreppe: durchgehende spiegelgleiche 3D-Steinwangen ohne seitliche Mini-Stufen."/>
-<title>Hinter dem Horizont · Weißes Haus · Nordfassade A0.2.3</title>
+<title>Hinter dem Horizont · Weißes Haus · Nordfassade A0.2.4</title>
 <style>
 :root {--ink:#1b2822;--fg:#fff9ef;--edge:#b7b2a4}
 *{box-sizing:border-box}
@@ -26,7 +26,7 @@ button:focus-visible{outline:3px solid #ffbd78}
 </head>
 <body>
 <div id="view"></div>
-<div id="info"><h1>Hinter dem Horizont</h1><p>Weißes Haus · Nordfassade · Architektur A0.2.3</p></div>
+<div id="info"><h1>Hinter dem Horizont</h1><p>Weißes Haus · Nordfassade · Architektur A0.2.4</p></div>
 <div id="state">Modell wird geladen …</div>
 <div id="help">Finger: drehen · zwei Finger: zoomen</div>
 <div id="error" role="alert"></div>
@@ -67,8 +67,8 @@ button:focus-visible{outline:3px solid #ffbd78}
  }
  // Material colors are read from the GLB. Unlike the original A0.1.3, no fixed 8-color table.
  const fallbackColors=[ [.88,.86,.83], [.96,.94,.90], [.14,.20,.24], [.18,.30,.16], [.48,.45,.41], [.12,.22,.12], [.24,.12,.07], [.64,.48,.23] ];
- const resp=await fetch('./assets/Weisses-Haus-Nord-A023.glb',{cache:'no-store'});
- if(!resp.ok)throw new Error('Gebäudedatei fehlt (HTTP '+resp.status+'). Modell muss unter assets/Weisses-Haus-Nord-A023.glb liegen.');
+ const resp=await fetch('./assets/Weisses-Haus-Nord-A024.glb',{cache:'no-store'});
+ if(!resp.ok)throw new Error('Gebäudedatei fehlt (HTTP '+resp.status+'). Modell muss unter assets/Weisses-Haus-Nord-A024.glb liegen.');
  const bytes=await resp.arrayBuffer(),v=new DataView(bytes);
  if(v.getUint32(0,true)!==0x46546c67)throw new Error('Die GLB-Datei ist ungültig.');
  const jsonLen=v.getUint32(12,true),jsonType=v.getUint32(16,true);
@@ -163,7 +163,7 @@ button:focus-visible{outline:3px solid #ffbd78}
  canvas.addEventListener('touchmove',e=>{for(const t of e.changedTouches)fingers.set(t.identifier,[t.clientX,t.clientY]);if(fingers.size>=2){const [a,b]=[...fingers.values()];const dist=Math.hypot(a[0]-b[0],a[1]-b[1]);if(lastPinch)radius=Math.max(37,Math.min(210,radius*lastPinch/dist));lastPinch=dist;draw();}},{passive:true});
  canvas.addEventListener('touchend',e=>{for(const t of e.changedTouches)fingers.delete(t.identifier);lastPinch=0;dragging=false;},{passive:true});
  canvas.addEventListener('wheel',e=>{e.preventDefault();radius=Math.max(37,Math.min(210,radius*(1+Math.sign(e.deltaY)*.08)));draw();},{passive:false});
- addEventListener('resize',draw);frame();state.textContent=(gl?'3D aktiv · ':'Canvas-3D aktiv · ')+doc.nodes.filter(n=>n.mesh!=null).length+' sichtbare Bauteilgruppen · Nordfassade A0.2.3';
+ addEventListener('resize',draw);frame();state.textContent=(gl?'3D aktiv · ':'Canvas-3D aktiv · ')+doc.nodes.filter(n=>n.mesh!=null).length+' sichtbare Bauteilgruppen · Nordfassade A0.2.4';
 })().catch(error=>{console.error(error);const e=document.getElementById('error');e.textContent='Startfehler: '+error.message;e.style.display='block';document.getElementById('state').textContent='Modell konnte nicht geladen werden';});
 </script>
 </body>

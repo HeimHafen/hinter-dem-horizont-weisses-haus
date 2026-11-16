@@ -1,15 +1,25 @@
-WH Nordtreppe A0.2.3 für Working Copy
+Hinter dem Horizont – Nordtreppe A0.2.4 (nur Seitenteile)
 
-Enthalten sind:
-- index.html
-- assets/Weisses-Haus-Nord-A023.glb
-- PRUEFBERICHT.md
+GRUNDLAGE
+Die im iPhone sichtbare A0.2.3 mit 776 Bauteilgruppen.
 
-Einbau:
-1) In Working Copy im Repo hinter-dem-horizont-weisses-haus einen neuen Testbranch anlegen: test/nordtreppe-a023
-2) index.html im Hauptverzeichnis ersetzen
-3) Weisses-Haus-Nord-A023.glb in den vorhandenen assets-Ordner kopieren
-4) Committen und auf refs/heads/test/nordtreppe-a023 pushen (Force Push: Aus)
+DATEIEN FÜR DAS SPIEL
+1. index.html (ins Repository-Hauptverzeichnis, aktuelle Datei ersetzen)
+2. assets/Weisses-Haus-Nord-A024.glb (in vorhandenen Ordner assets kopieren)
 
-Zusammenfassung:
-Nordtreppe A0.2.3 – Treppenwangen neu proportioniert, Abschlüsse beruhigt, seitliche Sockel präzisiert
+INSTALLATION IN WORKING COPY
+1. Von deinem aktuellen A0.2.3-Stand einen Testbranch erstellen:
+   test/nordtreppe-a024
+2. Nur die oben genannten zwei Spieldateien einfügen.
+3. Änderungen prüfen, committen und Testbranch pushen.
+4. Remote-Referenz beim Push: refs/heads/test/nordtreppe-a024
+5. Force Push: AUS; main unverändert lassen.
+
+COMMIT-ZUSAMMENFASSUNG
+Nordtreppe A0.2.4 – Seitliche Mini-Stufen verdeckt, Steinwangen neu an fünf Hauptstufen angepasst
+
+DETAILLIERTE INFORMATIONEN
+Die acht Seitenbauteile aus A0.2.3 deaktiviert und durch zwei geometrisch angepasste Steinwangen mit jeweils einem durchgehenden Abdeckprofil ersetzt. Die Wangen decken die Außenkanten der fünf Original-Hauptstufen ab. Hauptstufen, Podest, Säulen und Fassade unverändert.
+
+WICHTIG
+Der isolierte Browsertest benutzt Canvas-3D; das echte iPhone-WebGL-Ergebnis ist noch nicht visuell freigegeben. GitHub Pages kann auf main statt auf dem Testbranch zeigen; dann die Pages-Quelle gezielt einstellen oder den Branch nach Freigabe übernehmen.
