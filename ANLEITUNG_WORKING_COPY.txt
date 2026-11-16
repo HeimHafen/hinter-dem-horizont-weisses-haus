@@ -1,48 +1,15 @@
-HINTER DEM HORIZONT — NORDTREPPE A0.2.2
-====================================
+WH Nordtreppe A0.2.3 für Working Copy
 
-GELTUNGSBEREICH
-Dieses Update stammt von deinem funktionierenden Modell A0.2.1.
-Es verändert ausschließlich die beiden seitlichen Treppenwangen und deren durchgehende Abdeckprofile.
-Die fünf Hauptstufen, Säulensockel, Portiko, Fenster, Dach und bisherige Bedienung bleiben unverändert.
+Enthalten sind:
+- index.html
+- assets/Weisses-Haus-Nord-A023.glb
+- PRUEFBERICHT.md
 
-WICHTIG: DEIN BRANCH (Working Copy, iPhone)
-Du hast A0.2.1 bereits als lokalen Commit auf main, während origin/main noch A0.2.0 zeigt.
-Bitte zuerst in Working Copy beim Weißes-Haus-Repository aus dem AKTUELLEN lokalen HEAD
-(branch main, Commit A0.2.1) einen neuen Testbranch erzeugen und AUF IHN WECHSELN:
+Einbau:
+1) In Working Copy im Repo hinter-dem-horizont-weisses-haus einen neuen Testbranch anlegen: test/nordtreppe-a023
+2) index.html im Hauptverzeichnis ersetzen
+3) Weisses-Haus-Nord-A023.glb in den vorhandenen assets-Ordner kopieren
+4) Committen und auf refs/heads/test/nordtreppe-a023 pushen (Force Push: Aus)
 
-test/nordtreppe-a022
-
-NICHT direkt main pushen und KEIN Force Push.
-
-DATEIEN INSTALLIEREN
-1. Dieses ZIP in der iOS-Dateien-App entpacken.
-2. Dateien in den geklonten Working-Copy-Repositoryordner übernehmen:
-   - index.html -> Repository-Hauptverzeichnis (vorhandene Datei ersetzen)
-   - assets/Weisses-Haus-Nord-A022.glb -> bestehender Unterordner assets/
-3. Alte GLB-Dateien NICHT löschen; sie sind als Rückfallstände nützlich.
-4. In Working Copy prüfen, dass GENAU diese beiden Spieldateien geändert/hinzugefügt sind.
-5. Beide Änderungen committen. Anschließend Testbranch pushen.
-
-COMMIT-ZUSAMMENFASSUNG:
-Nordtreppe A0.2.2 – durchgehende 3D-Steinwangen und saubere Kantenprofile
-
-DETAILLIERTE INFORMATIONEN:
-Auf Grundlage der funktionierenden A0.2.1 wurden ausschließlich die beiden Nordtreppenwangen
-und ihre oberen Abdeckprofile neu modelliert. Der neue Aufbau verwendet vier geschlossene,
-spiegelgleiche 3D-Bauteile. Überstehende, gestapelte Seitenteile werden nicht mehr angezeigt.
-Die Originalgeometrie des gesamten übrigen Gebäudes und die Steuerung sind unverändert.
-
-WORKING COPY REMOTE-REFERENZ:
-refs/heads/test/nordtreppe-a022
-Force Push: AUS
-
-LIVETEST
-Ein Push zu test/nordtreppe-a022 ändert NICHT die GitHub-Pages-Webseite, sofern Pages weiter
-main veröffentlicht. Erst nach Umstellung der Pages-Quelle oder einem späteren geprüften Merge
-ist A0.2.2 auf der bekannten Live-Adresse zu sehen.
-
-QUALITÄTSGRENZEN
-GLB-Struktur, geschlossene Geometrie, JavaScript-Syntax und der Chromium-Canvas-Ladepfad
-wurden getestet. iPhone-Safari-WebGL wurde hier NICHT getestet. Keine Zusage auf 1:1
-historische Originaltreue oder Pixelgleichheit mit dem generierten Zielbild.
+Zusammenfassung:
+Nordtreppe A0.2.3 – Treppenwangen neu proportioniert, Abschlüsse beruhigt, seitliche Sockel präzisiert
