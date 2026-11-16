@@ -1,0 +1,24 @@
+NORDPORTIKO A0.1.6 — PRÜFBERICHT
+
+Grundlage: A0.1.5. Geändert: nur die GLB-Baugruppe des nördlichen Dach-/Giebelbereichs und der Versionspfad des HTML-Viewers.
+
+Automatisierte Prüfungen
+- Neues GLB geladen: erfolgreich
+- Rohdaten: keine NaN-/Infinite-Koordinaten
+- Entfernte Doppelkomponenten: Giebel sowie A015-Tympanum, -Frieze, -Cornice, -Shadowgroove, -Rake
+- Neue durchgehende Giebeldachhülle: vorhanden und wasserdicht in Geometrie
+- Unbeteiligte historische GLB-Bauteile: unverändert
+- HTML referenziert exakt das neue GLB
+- ZIP-Datei und CRC: geprüft
+
+Browserprüfung (Chromium, lokaler eingebetteter GLB-Datensatz)
+- Modellstart: erfolgreich, Canvas-3D aktiv
+- Kein JavaScript-Fehler während des Tests
+- Nahansicht und Übersicht umgeschaltet: erfolgreich
+- Screenshotaufnahmen erstellt.
+
+Grenzen der Prüfung
+- Lokaler file- und localhost-Aufruf in Testumgebung blockiert.
+- WebGL-Grafiktest auf iPhone Safari ist offen.
+- Der Canvas-Renderer besitzt bei sich überdeckenden Flächen Sortierungsartefakte.
+- Es handelt sich um eine geometrische Verbesserung, nicht um fotorealistische PBR-Belichtung und nicht um eine planvermessen exakte 1:1-Rekonstruktion.
