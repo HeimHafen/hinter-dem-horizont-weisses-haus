@@ -1,10 +1,14 @@
-A0.1.8 – Working Copy
+Nordtreppe A0.1.9 – Working Copy
 
-1) Den funktionierenden Stand A0.1.7 sichern.
-2) In Working Copy einen neuen Testbranch test/nordportiko-a018 auf Basis der aktuellen Version anlegen und aktivieren.
-3) ZIP entpacken, index.html im Repo-Hauptordner ersetzen; assets/Weisses-Haus-Nord-A018.glb in assets/ ablegen. Vorherige GLBs nicht löschen.
-4) Beide Dateien committen.
-5) Remote-Referenz refs/heads/test/nordportiko-a018, Force Push Aus.
-6) Für GitHub Pages Test auf diesem Branch Pages-Quelle vorübergehend entsprechend umstellen oder nach Abnahme in main übernehmen.
+1. A0.1.8 sichern.
+2. Neuen Testbranch aus dem AKTUELLEN funktionierenden Stand erstellen: test/nordtreppe-a019.
+3. ZIP entpacken; index.html im Repository-Hauptordner ersetzen.
+4. assets/Weisses-Haus-Nord-A019.glb in assets/ ablegen. A018 nicht löschen.
+5. Beide Dateien committen und neuen Branch nach origin pushen.
+6. GitHub Pages zeigt den Testbranch nur, wenn dieser veröffentlicht wird (oder nach explizitem Merge).
 
-Prüfen: Dachkante links/rechts, Türzarge, Säulenfüße/Stufenränder, Frontalansicht.
+Commit: Nordtreppe A0.1.9 – echte geschwungene 3D-Steinwangen und Eckpfeiler
+Remote: refs/heads/test/nordtreppe-a019
+Force Push: Aus
+
+Zur Prüfung: Frontalansicht und jeweils 45-Grad-Schrägansicht beider seitlicher Treppenabschlüsse.
