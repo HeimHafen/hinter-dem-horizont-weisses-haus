@@ -1,28 +1,35 @@
-# Architektur A0.2.0 – Nordtreppe, Qualitätskorrektur der Seitenabschlüsse
+# Technischer Prüfbericht – Nordtreppe A0.2.1
 
-## Ziel / Ausführung
-Isolierte Korrektur der in den Nutzer-Screenshots beanstandeten linken und rechten Treppenwangen. Die originale A0.1.9 ist die Ausgangsbasis und bleibt als Rückfallversion erhalten.
+## Ausgangspunkt
+Original: vom Nutzer hochgeladenes Repository-Archiv mit `index.html` A0.2.0 und `assets/Weisses-Haus-Nord-A020.glb`.
 
-## Wirkliche 3D-Änderungen
-- Alle 27 Zusatz-Meshes aus A0.1.9 in der neuen GLB nicht mehr gerendert (Originalbytes der Quelldatei bleiben erhalten).
-- Zwei neue, vollständig geschlossene, spiegelgleiche, weich gekrümmte Steinwangen mit je 50 Querschnitten.
-- Einheitliche, kontinuierliche Deckprofile mit kurzen abgeschrägten Kanten, keine gestapelten Schein-Stufen.
-- Zwei niedrige, an die Wangen angeschlossene rechteckige Abschlusspfeiler mit zurückhaltenden Reliefrahmen.
-- Fünf minimierte, an den unveränderten Stufen ausgerichtete Kantenprofile.
-- Die übrige Fassade (Säulen, Giebel, Portiko, Tür, Fenster, Dach) wurde geometrisch nicht verändert.
+## Änderungen (streng begrenzt auf Treppenseiten)
+- Die 22 sichtbaren alten A020-Treppenseitenteile werden durch Entfernen ihrer Mesh-Zuweisung deaktiviert.
+- Vier neue, tatsächlich dreidimensionale GLB-Meshes eingefügt: jeweils eine **geschlossene, kontinuierliche** Steinwange und ein profiliertes Abdeckgesims pro Seite.
+- Die Konstruktion wird mathematisch über X=0 gespiegelt. Keine auskragenden seitlichen Mini-Treppen, gestapelten Blöcke oder separaten Eckpfeiler mehr.
+- Die neuen Wangen liegen auf ±8,565 bis ±8,935 m, von z=18,89 bis z=20,55 m. Der sichtbare Stufenlauf beginnt bei z=19,0 und endet bei z=20,55. Modellkoordinaten, **keine extern verifizierten Originalmaße**.
+- Die fünf breiten Hauptstufen und ihre Schattenkanten, alle Säulen, Fenster, Dach, Tür, Materialien außerhalb der Treppenseiten und Bedienung bleiben unverändert.
+- `index.html` verweist nur auf die neue GLB-Datei und zeigt Version A0.2.1.
 
-## Kontrolle
-Neue sichtbare GLB-Meshes: 27. Neues Dreiecksvolumen: 2,660 Dreiecke. A0.1.9-Teile entfernt aus Renderpfad: 27.
-Automatisiert kontrolliert: geschlossene neue Volumenkörper, symmetrische Maße, Ausgangsmeshes unverändert, syntaktisches HTML und GLB, ZIP-Integrität.
-Lokale 3D-Browser-Vorschau ist keine Safari-iPhone-Abnahme.
+## Nachgewiesene technische Prüfungen
+- GLB-Header, JSON, BIN und angegebene Größen konsistent.
+- Alle ursprünglichen BIN-Bytes bleiben exakt erhalten; alle historischen Gebäudemeshes wurden unverändert in die neue GLB übernommen.
+- Außer den 22 genannten Treppenseiten wurden keine alten Nodes verändert.
+- Links/rechts geometrisch exakt gespiegelt.
+- Alle vier neuen Meshes sind geschlossen (watertight) und weisen konsistente Flächenorientierung auf.
+- Neue Geometrie ragt nicht mehr vor die Stirnkante der Haupttreppe.
+- Dateiverknüpfung in `index.html` auf `assets/Weisses-Haus-Nord-A021.glb` geprüft.
 
-## Historische Quellen / Grenzen
-Die Truman Presidential Library dokumentiert bei der Renovierung 1951 graue Tennessee-Marmor-Stufen, jedoch keine maßstäblichen Detailmaße der heutigen beiden Seitenwangen. https://www.trumanlibrary.gov/photograph-records/71-584 . Die geschwungene Form und Eckpfeiler sind derzeit eine vereinbarte Zielbild-Interpretation, nicht als historisch exakt nachgewiesen.
+## Isolierter Browsertest
+- Das vollständige neue GLB wurde in Chromium mit direkt eingebetteten Modelldaten geladen: Anzeige `Canvas-3D aktiv · 772 sichtbare Bauteilgruppen` und 0 JavaScript-Fehler.
+- Die Canvas-Ersatzdarstellung sortiert Flächen in großen Gebäudemodellen nur näherungsweise; sie reicht nicht zur visuellen Abnahme.
 
-## Working Copy
-ZIP entpacken und NUR `index.html` und `assets/Weisses-Haus-Nord-A020.glb` ins Repo übertragen. Nie den kompletten alten `assets`-Ordner löschen.
-Von dem Branch ausgehen, der A0.1.9 enthält. Neuer Branch `test/nordtreppe-a020`.
-Zusammenfassung: `Nordtreppe A0.2.0 – Seitliche Steinwangen nahtlos modelliert, Eckpfeiler korrigiert`
-Detailliert: `Symmetrische, durchgehende 3D-Wangen und Deckprofile; zu hohe Eckpfeiler ersetzt; fünf Stufenkanten angepasst. A0.1.9 bleibt rücksetzbar.`
-Remote-Referenz: `refs/heads/test/nordtreppe-a020`.
-Force Push: Aus. `main` unverändert.
+## Offene Qualitätsnachweise
+- iPhone Safari WebGL: Noch nicht geprüft. Diese Umgebung blockiert den normalen lokalen Webserverzugriff.
+- Exakte Übereinstimmung mit Originalfotos/Bauplänen: Nicht nachgewiesen.
+- Optische Freigabe ausdrücklich erst nach frontalem und seitlichem iPhone-Screenshot.
+- Nach Stand der Truman Library wurden 1951 Stufen aus grauem Tennessee-Marmor eingebaut, genaue Maße der Seitenabschlüsse sind durch diese Quelle nicht belegt.
+
+## Referenz
+- Harry S. Truman Presidential Library, Foto 71-584, 4. Dezember 1951: https://www.trumanlibrary.gov/photograph-records/71-584
+- Harry S. Truman Presidential Library, Foto 71-583, 4. Dezember 1951: https://www.trumanlibrary.gov/photograph-records/71-583

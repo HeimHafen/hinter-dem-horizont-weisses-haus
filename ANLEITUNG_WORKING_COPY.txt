@@ -1,0 +1,20 @@
+NORDTREPPE A0.2.1 – WORKING COPY (iPHONE)
+
+1. Bestehenden funktionierenden Stand A0.2.0 auf main sichern.
+2. In Working Copy aus main den neuen Testbranch test/nordtreppe-a021 erstellen und auschecken.
+3. ZIP entpacken. Die index.html im Repository-Hauptverzeichnis ERSETZEN.
+4. Den enthaltenen assets-Ordner nicht als neuen Unterordner im Projekt anlegen, sondern in den bestehenden assets-Ordner integrieren: assets/Weisses-Haus-Nord-A021.glb
+5. Änderungen prüfen: genau index.html und die neue GLB-Datei.
+6. Commit und Push auf refs/heads/test/nordtreppe-a021; Force Push AUS.
+7. GitHub Pages veröffentlicht einen Testbranch nur, wenn die Pages-Quelle entsprechend eingerichtet wurde (oder der Branch später nach main übernommen wird).
+
+Zusammenfassung (Commit):
+Nordtreppe A0.2.1 – Seitliche Mini-Stufen entfernt, gespiegelt durchgehende Steinwangen aufgebaut
+
+Detaillierte Informationen:
+A0.2.0 als unveränderte Ausgangsbasis. 22 Treppenseiten-Meshes deaktiviert; vier neue geschlossene GLB-Geometrien für linke und rechte Wange mit dezentem Abschlussprofil. Die fünf Hauptstufen, Portiko, Restgebäude und Steuerung bleiben unangetastet.
+
+Vorhandene oder neue Remote-Referenz:
+refs/heads/test/nordtreppe-a021
+
+Source-Branch main unverändert; Force Push Aus.
