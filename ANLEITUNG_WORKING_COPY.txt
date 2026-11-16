@@ -1,20 +1,48 @@
-NORDTREPPE A0.2.1 – WORKING COPY (iPHONE)
+HINTER DEM HORIZONT — NORDTREPPE A0.2.2
+====================================
 
-1. Bestehenden funktionierenden Stand A0.2.0 auf main sichern.
-2. In Working Copy aus main den neuen Testbranch test/nordtreppe-a021 erstellen und auschecken.
-3. ZIP entpacken. Die index.html im Repository-Hauptverzeichnis ERSETZEN.
-4. Den enthaltenen assets-Ordner nicht als neuen Unterordner im Projekt anlegen, sondern in den bestehenden assets-Ordner integrieren: assets/Weisses-Haus-Nord-A021.glb
-5. Änderungen prüfen: genau index.html und die neue GLB-Datei.
-6. Commit und Push auf refs/heads/test/nordtreppe-a021; Force Push AUS.
-7. GitHub Pages veröffentlicht einen Testbranch nur, wenn die Pages-Quelle entsprechend eingerichtet wurde (oder der Branch später nach main übernommen wird).
+GELTUNGSBEREICH
+Dieses Update stammt von deinem funktionierenden Modell A0.2.1.
+Es verändert ausschließlich die beiden seitlichen Treppenwangen und deren durchgehende Abdeckprofile.
+Die fünf Hauptstufen, Säulensockel, Portiko, Fenster, Dach und bisherige Bedienung bleiben unverändert.
 
-Zusammenfassung (Commit):
-Nordtreppe A0.2.1 – Seitliche Mini-Stufen entfernt, gespiegelt durchgehende Steinwangen aufgebaut
+WICHTIG: DEIN BRANCH (Working Copy, iPhone)
+Du hast A0.2.1 bereits als lokalen Commit auf main, während origin/main noch A0.2.0 zeigt.
+Bitte zuerst in Working Copy beim Weißes-Haus-Repository aus dem AKTUELLEN lokalen HEAD
+(branch main, Commit A0.2.1) einen neuen Testbranch erzeugen und AUF IHN WECHSELN:
 
-Detaillierte Informationen:
-A0.2.0 als unveränderte Ausgangsbasis. 22 Treppenseiten-Meshes deaktiviert; vier neue geschlossene GLB-Geometrien für linke und rechte Wange mit dezentem Abschlussprofil. Die fünf Hauptstufen, Portiko, Restgebäude und Steuerung bleiben unangetastet.
+test/nordtreppe-a022
 
-Vorhandene oder neue Remote-Referenz:
-refs/heads/test/nordtreppe-a021
+NICHT direkt main pushen und KEIN Force Push.
 
-Source-Branch main unverändert; Force Push Aus.
+DATEIEN INSTALLIEREN
+1. Dieses ZIP in der iOS-Dateien-App entpacken.
+2. Dateien in den geklonten Working-Copy-Repositoryordner übernehmen:
+   - index.html -> Repository-Hauptverzeichnis (vorhandene Datei ersetzen)
+   - assets/Weisses-Haus-Nord-A022.glb -> bestehender Unterordner assets/
+3. Alte GLB-Dateien NICHT löschen; sie sind als Rückfallstände nützlich.
+4. In Working Copy prüfen, dass GENAU diese beiden Spieldateien geändert/hinzugefügt sind.
+5. Beide Änderungen committen. Anschließend Testbranch pushen.
+
+COMMIT-ZUSAMMENFASSUNG:
+Nordtreppe A0.2.2 – durchgehende 3D-Steinwangen und saubere Kantenprofile
+
+DETAILLIERTE INFORMATIONEN:
+Auf Grundlage der funktionierenden A0.2.1 wurden ausschließlich die beiden Nordtreppenwangen
+und ihre oberen Abdeckprofile neu modelliert. Der neue Aufbau verwendet vier geschlossene,
+spiegelgleiche 3D-Bauteile. Überstehende, gestapelte Seitenteile werden nicht mehr angezeigt.
+Die Originalgeometrie des gesamten übrigen Gebäudes und die Steuerung sind unverändert.
+
+WORKING COPY REMOTE-REFERENZ:
+refs/heads/test/nordtreppe-a022
+Force Push: AUS
+
+LIVETEST
+Ein Push zu test/nordtreppe-a022 ändert NICHT die GitHub-Pages-Webseite, sofern Pages weiter
+main veröffentlicht. Erst nach Umstellung der Pages-Quelle oder einem späteren geprüften Merge
+ist A0.2.2 auf der bekannten Live-Adresse zu sehen.
+
+QUALITÄTSGRENZEN
+GLB-Struktur, geschlossene Geometrie, JavaScript-Syntax und der Chromium-Canvas-Ladepfad
+wurden getestet. iPhone-Safari-WebGL wurde hier NICHT getestet. Keine Zusage auf 1:1
+historische Originaltreue oder Pixelgleichheit mit dem generierten Zielbild.

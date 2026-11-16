@@ -1,35 +1,36 @@
-# Technischer Prüfbericht – Nordtreppe A0.2.1
+# Prüfbericht – Nordtreppe A0.2.2
 
-## Ausgangspunkt
-Original: vom Nutzer hochgeladenes Repository-Archiv mit `index.html` A0.2.0 und `assets/Weisses-Haus-Nord-A020.glb`.
+## Basis
+- Original: A0.2.1 aus dem zuvor für dieses Projekt erstellten Working-Copy-Paket.
+- Hochgeladene Repository-ZIP als unabhängige Kontrolle geprüft; sie enthält noch A0.2.0.
+- Ausschließlich Nordtreppen-Seitenwangen und deren Profile wurden verändert.
 
-## Änderungen (streng begrenzt auf Treppenseiten)
-- Die 22 sichtbaren alten A020-Treppenseitenteile werden durch Entfernen ihrer Mesh-Zuweisung deaktiviert.
-- Vier neue, tatsächlich dreidimensionale GLB-Meshes eingefügt: jeweils eine **geschlossene, kontinuierliche** Steinwange und ein profiliertes Abdeckgesims pro Seite.
-- Die Konstruktion wird mathematisch über X=0 gespiegelt. Keine auskragenden seitlichen Mini-Treppen, gestapelten Blöcke oder separaten Eckpfeiler mehr.
-- Die neuen Wangen liegen auf ±8,565 bis ±8,935 m, von z=18,89 bis z=20,55 m. Der sichtbare Stufenlauf beginnt bei z=19,0 und endet bei z=20,55. Modellkoordinaten, **keine extern verifizierten Originalmaße**.
-- Die fünf breiten Hauptstufen und ihre Schattenkanten, alle Säulen, Fenster, Dach, Tür, Materialien außerhalb der Treppenseiten und Bedienung bleiben unverändert.
-- `index.html` verweist nur auf die neue GLB-Datei und zeigt Version A0.2.1.
+## Konstruktion
+- Vier neue geschlossene 3D-Körper (zwei spiegelgleiche Steinwangen, zwei durchgehende Abdeckprofile).
+- Beide Seiten: Rückansatz z≈18,885 bis vordere Treppenstufe z≈20,565; Seitenbreiten und Höhen symmetrisch.
+- Keine zusätzliche Mini-Treppe, keine neuen frei stehenden Eckpfeiler.
+- Vier alte A0.2.1-Seitenteile deaktiviert, ohne ihre Quellgeometrie zu löschen.
+- Fünf Hauptstufen, Treppenpodest, Säulen, Türen, Fenster, Dach, Materialien und Steuerung nicht verändert.
 
-## Nachgewiesene technische Prüfungen
-- GLB-Header, JSON, BIN und angegebene Größen konsistent.
-- Alle ursprünglichen BIN-Bytes bleiben exakt erhalten; alle historischen Gebäudemeshes wurden unverändert in die neue GLB übernommen.
-- Außer den 22 genannten Treppenseiten wurden keine alten Nodes verändert.
-- Links/rechts geometrisch exakt gespiegelt.
-- Alle vier neuen Meshes sind geschlossen (watertight) und weisen konsistente Flächenorientierung auf.
-- Neue Geometrie ragt nicht mehr vor die Stirnkante der Haupttreppe.
-- Dateiverknüpfung in `index.html` auf `assets/Weisses-Haus-Nord-A021.glb` geprüft.
+## Automatisierte Prüfungen
+- GLB-Szene mit `trimesh` geöffnet: **772 sichtbare Meshgruppen**.
+- Vier neue Meshgruppen: **watertight** und konsistente Flächenausrichtung.
+- Bestehender binärer GLB-Datenblock byteweise unverändert, alle ursprünglichen Meshdefinitionen und Materialien unverändert.
+- JavaScript-Code mit `node --check` ohne Syntaxfehler.
+- Isolierter Chromium-Ladevorgang ohne JavaScript-Fehler; Anzeige `Canvas-3D aktiv`.
+- Bedienflächen Nordfassade, Portiko-Details, Südfassade und Übersicht im Test erreichbar.
 
-## Isolierter Browsertest
-- Das vollständige neue GLB wurde in Chromium mit direkt eingebetteten Modelldaten geladen: Anzeige `Canvas-3D aktiv · 772 sichtbare Bauteilgruppen` und 0 JavaScript-Fehler.
-- Die Canvas-Ersatzdarstellung sortiert Flächen in großen Gebäudemodellen nur näherungsweise; sie reicht nicht zur visuellen Abnahme.
+## Offene Abnahme
+- Lokaler HTTP-Server im Testcontainer blockiert; Browsertest daher mit eingebetteten Modelldaten durchgeführt.
+- WebGL konnte im Chromium-Testcontainer nicht aktiviert werden; iPhone-WebGL-Rendering und Performance **nicht verifiziert**.
+- Canvas-Ersatzdarstellung kann Polygon-Sortierartefakte zeigen und ist keine ausreichende visuelle Abnahme.
+- Historische Maßhaltigkeit der geschwungenen Treppenwangen anhand von Vermessungsplänen nicht bestätigt.
 
-## Offene Qualitätsnachweise
-- iPhone Safari WebGL: Noch nicht geprüft. Diese Umgebung blockiert den normalen lokalen Webserverzugriff.
-- Exakte Übereinstimmung mit Originalfotos/Bauplänen: Nicht nachgewiesen.
-- Optische Freigabe ausdrücklich erst nach frontalem und seitlichem iPhone-Screenshot.
-- Nach Stand der Truman Library wurden 1951 Stufen aus grauem Tennessee-Marmor eingebaut, genaue Maße der Seitenabschlüsse sind durch diese Quelle nicht belegt.
+## Checkliste für iPhone
+1. A0.2.2 auf dem tatsächlich veröffentlichten Branch aufrufen (oder Pages-Branch umstellen).
+2. Frontalansicht: beidseitig gleichmäßige Kontur ohne zusätzliche Ministeps.
+3. Linke/rechte Schrägansicht: saubere Anschlüsse ans Podest und an die Haupttreppe.
+4. Portiko-Details: keine Überlappung mit den vier Säulensockeln.
+5. Drehen und Zwei-Finger-Zoom wie zuvor.
 
-## Referenz
-- Harry S. Truman Presidential Library, Foto 71-584, 4. Dezember 1951: https://www.trumanlibrary.gov/photograph-records/71-584
-- Harry S. Truman Presidential Library, Foto 71-583, 4. Dezember 1951: https://www.trumanlibrary.gov/photograph-records/71-583
+Nur nach bestandenem echten iPhone-Test nach `main` übernehmen.

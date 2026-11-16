@@ -1,0 +1,6 @@
+SHA256-Prüfsummen für Update A0.2.2
+
+208eee73420850787b4fe821ef6bd37ece8bfd1366f93088de076c3f53d37b07  index.html
+00f2ecdfd0c1e2d0dff2cd4bb8a70387b06eca589005180d29cc2fadd5a34fdf  assets/Weisses-Haus-Nord-A022.glb
+2eabdf600cdbe3883c54798e3a6fb639b8ed28839bab8f0143651f86b31f785a  ANLEITUNG_WORKING_COPY.txt
+f9a4cea4fd216f8677e7b081904c9ee1e55fa75ebd7dac68be1070f84f3d5daa  PRUEFBERICHT.md
