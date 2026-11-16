@@ -1,31 +1,34 @@
-# Hinter dem Horizont – Nordportiko A0.1.6
+# Hinter dem Horizont – Architektur A0.1.7 (Nordfassade)
 
-**Ziel:** Weiterentwicklung der zuletzt auf dem iPhone erfolgreich gestarteten Version A0.1.5.
+## Freigegebenes visuelles Ziel
+Die zwei Bilder liegen im **separaten Zielbild-Paket** und sind **generierte Zielvisualisierungen, keine Screenshots des 3D-Spiels**. Sie definieren den gewünschten Detaillierungsgrad, Kamerablickwinkel, Farbstimmung und den architektonischen Qualitätsmaßstab.
 
-## Einziger geänderter Bereich
-- Nordportiko: Überlagerte Giebel- und Gesimsbauteile in der GLB-Geometrie ersetzt.
-- Ein durchgehender echter 3D-Dachkörper mit geneigten Flächen, Schattenfuge, eingerücktem Giebelfeld und profilierter Stirnseite.
-- Dachrückseite läuft bis an die Hauptfassade; die Dachkante, das Gebälk und der Zahnschnitt sind konstruktiv neu ausgerichtet.
-- Vier bestehende vordere Säulen, Treppen, Fenster, Hauskörper und Südseite unangetastet.
-- Der bestehende Offline-WebGL/Canvas-Viewer wurde beibehalten.
+## In A0.1.7 tatsächlich am 3D-Modell geändert
+- Fünf irreführende Dachstreifen/-fragmente (`A016_RoofSeam_*`) aus dem GLB entfernt.
+- Eine feine, bündige innere Giebeleinfassung in 3D hinzugefügt (drei kleine Profile).
+- Alte beige Fassadenmaterialien neutraler an den weiß gestrichenen Stein angenähert. Diese Materialänderung gilt am bestehenden Gesamtmodell, die übrige Gebäudegeometrie wird nicht geändert.
+- Beleuchtungsmodell für WebGL und Canvas leicht angepasst, ohne externe Bibliotheken oder Bild-Screenshots als Ersatz.
+- A0.1.6-Steuerung und sämtliche strukturellen Bauteile beibehalten.
 
-## Installation in Working Copy
-1. Komplettes Repository sichern, den funktionierenden Branch `main` nicht überschreiben.
-2. Aus dem aktuellen Stand neuen Testbranch `test/nordportiko-a016` erstellen und dorthin wechseln.
-3. ZIP entpacken: `index.html` in Repository-Wurzel ersetzen; `assets/Weisses-Haus-Nord-A016.glb` unter exakt diesem Pfad hinzufügen.
-4. Beide Änderungen committen und zum Testbranch pushen. **Force Push aus.**
-5. Für einen Online-Test auf GitHub Pages muss der Testbranch als Quelle konfiguriert oder nach Freigabe nach `main` übernommen werden.
+**Nicht enthalten:** echtes PBR-Material mit gemessenen Texturen, historisch metrisch bestätigte Rekonstruktion, fotorealistisches Raytracing, vollständige begehbare Innenräume.
 
-## Commit
-**Zusammenfassung:** `Nordportiko A0.1.6 – Dach und Giebel geometrisch vereinheitlicht`
-**Details:** Durchgehendes Portikodach, ein Giebelfeld, vereinheitlichtes Gesims, beibehaltene vier Säulen und Viewer-Steuerung.
-**Remote-Referenz:** `refs/heads/test/nordportiko-a016`
-**Force Push:** Aus
+## Working Copy auf dem iPhone
+1. Aktuellen funktionierenden `main`-Branch sichern.
+2. Neuen Testbranch `test/nordportiko-a017` aus aktuellem funktionierendem Stand erstellen und aktivieren.
+3. `index.html` im Repository-Hauptverzeichnis ersetzen.
+4. `assets/Weisses-Haus-Nord-A017.glb` in den bestehenden Ordner `assets` legen; andere Dateien nicht löschen.
+5. Beide Dateien committen; zu `refs/heads/test/nordportiko-a017` pushen. Force Push **Aus**.
+6. Für GitHub Pages den Branch testweise als Veröffentlichungsquelle setzen oder erst nach iPhone-Freigabe die Änderungen nach `main` übernehmen.
 
-## Historische Referenzen
-- Library of Congress, Historic American Buildings Survey DC-37: https://www.loc.gov/resource/hhh.dc0402.photos?st=gallery
-- National Park Service, White House and President's Park: https://www.nps.gov/whho/planyourvisit/park-brochure.htm
-- White House Historical Association, Nordfassade: https://www.whitehousehistory.org/photos/fotoware?id=8118467173E74C44+989C7448C0DC4410
+## Copy-Paste Commit
+Zusammenfassung: `Nordportiko A0.1.7 – Dachartefakte entfernt, Steinwirkung verfeinert`
+Detaillierte Informationen: `GLB-Dachstreifen entfernt; feine Giebeleinfassung modelliert; beige Steinmaterialien neutralisiert; WebGL/Canvas-Beleuchtung angepasst; bestehende Steuerung erhalten.`
+Remote-Referenz: `refs/heads/test/nordportiko-a017`
+Force Push: Aus
 
-## Qualität und Grenzen
-Das ist ein tatsächliches 3D-Modell, keine Fotofläche. Die Proportionen der Ausgangsgeometrie sind allerdings **nicht** auf Basis eines vollständigen vermessenen Bauplans verifiziert. Diese Version behebt Bauteilüberlagerungen; sie ist keine 1:1-Rekonstruktion und noch nicht fotorealistisch. Für verbindliche Freigabe ist der Safari-Grafiktest auf dem iPhone erforderlich.
+## Fachquellen
+National Park Service, White House and President's Park: https://www.nps.gov/whho/planyourvisit/park-brochure.htm
+Library of Congress, HABS DC-37 Fotodokumentation: https://www.loc.gov/resource/hhh.dc0402.photos/
+
+## Wichtig: Maßstab und Qualität
+Das Paket ist eine **verbesserte Zwischenstufe** aus dem vorhandenen A0.1.6-Modell. Das Zielbild ist um Größenordnungen fotorealistischer. Keine 1:1- oder 10/10-Behauptung, bevor reale iPhone-Screenshots und eine genaue Modellprüfung vorliegen.
