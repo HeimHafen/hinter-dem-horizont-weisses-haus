@@ -23,15 +23,19 @@
     @media(max-width:670px){#legend{display:none}header{max-width:calc(100% - 32px)}h1{font-size:22px}header p{font-size:12px}#info{max-width:180px;bottom:calc(max(15px,env(safe-area-inset-bottom)) + 161px)}}
     @media(max-width:390px){#toolbar{grid-template-columns:minmax(0,1fr) auto}#top-view{padding:0 9px;font-size:13px}#status{font-size:11px}}
   </style>
-  <script src="./src/fallback3d.js?v=a011" defer></script>
-  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js"}}</script>
+
 </head>
 <body>
-  <div id="scene"></div>
-  <header><h1>Hinter dem Horizont</h1><p>Weißes Haus · Architekturstudie A0.1.1<br>Maßstabsbasis: Executive Residence</p></header>
+  <div id="scene">
+  <div id="static-house" aria-hidden="true" style="position:absolute;left:50%;top:45%;transform:translate(-50%,-50%);max-width:78%;width:340px;opacity:.72">
+    <svg viewBox="0 0 460 280" xmlns="http://www.w3.org/2000/svg" width="100%"><path fill="#d5c9b8" d="M28 100L230 35 432 100v120H28z"/><path fill="#f2eadc" d="M20 220h420v20H20z"/><path fill="#b9a997" d="M35 100h390v12H35z"/><path fill="#f3ede5" d="M30 125h400v80H30z"/><rect x="47" y="145" width="26" height="45" rx="2" fill="#778b91" stroke="#eee6da" stroke-width="3"/><rect x="94" y="145" width="26" height="45" rx="2" fill="#778b91" stroke="#eee6da" stroke-width="3"/><rect x="141" y="145" width="26" height="45" rx="2" fill="#778b91" stroke="#eee6da" stroke-width="3"/><rect x="188" y="145" width="26" height="45" rx="2" fill="#778b91" stroke="#eee6da" stroke-width="3"/><rect x="235" y="145" width="26" height="45" rx="2" fill="#778b91" stroke="#eee6da" stroke-width="3"/><rect x="282" y="145" width="26" height="45" rx="2" fill="#778b91" stroke="#eee6da" stroke-width="3"/><rect x="329" y="145" width="26" height="45" rx="2" fill="#778b91" stroke="#eee6da" stroke-width="3"/><rect x="376" y="145" width="26" height="45" rx="2" fill="#778b91" stroke="#eee6da" stroke-width="3"/><path fill="#ddd3c6" d="M168 136h124v84H168z"/><path fill="#f8f1e8" d="M164 130h132v13H164z"/><rect x="178" y="147" width="10" height="65" fill="#f7eee0"/><rect x="205" y="147" width="10" height="65" fill="#f7eee0"/><rect x="245" y="147" width="10" height="65" fill="#f7eee0"/><rect x="272" y="147" width="10" height="65" fill="#f7eee0"/><path fill="#e0d6ca" d="M158 120h144l-72-40z"/></svg>
+  </div>
+  </div>
+  <header><h1>Hinter dem Horizont</h1><p>Weißes Haus · Architekturstudie A0.1.2<br>Maßstabsbasis: Executive Residence</p></header>
   <div id="legend">Nur Architektur<br>Öffentliche Räume: schematisch<br>Private Geschosse: nur Hülle</div>
-  <div id="info">Ansicht ziehen · Zwei Finger zum Zoomen</div>
-  <div id="status" role="status">3D-Modell wird aufgebaut …</div>
+  <div id="info">Gebäude drehen · mit zwei Fingern zoomen</div>
+  <div id="renderer-kind" style="position:fixed;top:calc(max(14px,env(safe-area-inset-top)) + 112px);right:16px;z-index:3;font:11px system-ui;color:#ecdfc5;background:#1c322ccc;border:1px solid #ffffff22;padding:5px 7px;border-radius:8px">Startprüfung</div>
+  <div id="status" role="status">3D-Architekturansicht wird vorbereitet …</div>
   <div id="error" role="alert"></div>
   <div id="toolbar">
     <select id="floor" aria-label="Geschoss auswählen">
@@ -45,72 +49,315 @@
     </select>
     <button id="top-view" type="button">Draufsicht</button>
   </div>
-  <script type="module">
-    import * as THREE from 'three';
-    import {baueHaus} from './src/haus3d.js';
-    const status=document.querySelector('#status'),error=document.querySelector('#error');
-    try {
-      const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.6));
-      renderer.outputColorSpace=THREE.SRGBColorSpace;
-      renderer.toneMapping=THREE.ACESFilmicToneMapping;
-      renderer.setSize(innerWidth,innerHeight);
-      document.querySelector('#scene').appendChild(renderer.domElement);
-      const scene=new THREE.Scene();scene.background=new THREE.Color(0xaac2cc);
-      scene.add(new THREE.HemisphereLight(0xe8f0ff,0x827c68,2.0));
-      const sunlight=new THREE.DirectionalLight(0xffe8cf,2.5);sunlight.position.set(-30,50,36);scene.add(sunlight);
-      const camera=new THREE.PerspectiveCamera(46,innerWidth/innerHeight,.15,280);
-      const {root,setLevel,HAUS}=baueHaus();scene.add(root);
-      const selected=document.querySelector('#floor');
-      const topButton=document.querySelector('#top-view');
-      let focus=new THREE.Vector3(0,7.7,0),radius=87,azimuth=.59,elevation=1.05,topDown=false;
-      let pointers=new Map(),lastPinch=null;
-      function orient(){
-        const height=Math.max(.07,Math.min(Math.PI-.05,elevation));
-        camera.position.set(focus.x+radius*Math.sin(height)*Math.cos(azimuth),
-          focus.y+radius*Math.cos(height),
-          focus.z+radius*Math.sin(height)*Math.sin(azimuth));
-        camera.lookAt(focus);
-      }
-      function applyMode(mode){
-        const entry=setLevel(mode),outside=mode==='outside';
-        focus.set(0,outside?7.7:(entry?.y||0),0);
-        radius=outside?84:60;azimuth=outside?-.78:-.55;
-        elevation=outside?1.22:.35;topDown=!outside;
-        topButton.textContent=topDown?'Schrägansicht':'Draufsicht';
-        status.textContent=outside?'Außenmaße 51,2 × 26,1 m (ohne Portiken). Gebäudeform und Fassadendetails in Entwicklung.':
-          `${entry.name}: ${entry.status}. Raummaße und Wandpositionen sind hier noch keine Vermessungsdaten.`;
-        orient();
-      }
-      selected.addEventListener('change',()=>applyMode(selected.value));
-      topButton.addEventListener('click',()=>{
-        topDown=!topDown;elevation=topDown?.05:1.00;topButton.textContent=topDown?'Schrägansicht':'Draufsicht';orient();
-      });
-      const canvas=renderer.domElement;
-      canvas.addEventListener('pointerdown',e=>{canvas.setPointerCapture(e.pointerId);pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});});
-      canvas.addEventListener('pointermove',e=>{
-        if(!pointers.has(e.pointerId))return;
-        const prior=pointers.get(e.pointerId),dx=e.clientX-prior.x,dy=e.clientY-prior.y;
-        pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
-        if(pointers.size===1){azimuth-=dx*.006;elevation=Math.max(.06,Math.min(2.6,elevation-dy*.005));orient();}
-        if(pointers.size===2){const [a,b]=[...pointers.values()];const distance=Math.hypot(a.x-b.x,a.y-b.y);if(lastPinch!==null){radius=Math.max(28,Math.min(140,radius*(lastPinch/distance)));orient();}lastPinch=distance;}
-      });
-      const end=e=>{pointers.delete(e.pointerId);if(pointers.size<2)lastPinch=null;};
-      canvas.addEventListener('pointerup',end);canvas.addEventListener('pointercancel',end);
-      canvas.addEventListener('wheel',e=>{e.preventDefault();radius=Math.max(28,Math.min(140,radius*(e.deltaY>0?1.08:.92)));orient();},{passive:false});
-      addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
-      const hash=new URLSearchParams(location.search).get('floor');if(hash&&[...selected.options].some(x=>x.value===hash))selected.value=hash;
-      applyMode(selected.value);
-      let frame=0;function draw(){
-        renderer.render(scene,camera);
-        if(!window.__architecture3DReady){
-          window.__architecture3DReady=true;
-          window.__architectureFallback?.stop();
+  <noscript><p style="padding:20px;background:#793d2f;color:white;position:fixed;top:140px;z-index:9">Bitte JavaScript in Safari aktivieren, damit die 3D-Architektur sichtbar wird.</p></noscript>
+  <script>
+/* Hinter dem Horizont | Architektur A0.1.2
+ * Lokaler 3D-Fallback ohne Netzwerkbibliothek (Canvas-3D-Projektion).
+ * Geometrie ist eine schematische Architekturstudie, keine vermessene Rekonstruktion.
+ */
+(()=>{
+  'use strict';
+  const SCENE=document.querySelector('#scene');
+  const STATUS=document.querySelector('#status');
+  const FLOOR=document.querySelector('#floor');
+  const TOP=document.querySelector('#top-view');
+  if(!SCENE||!STATUS||!FLOOR||!TOP)return;
+  let running=false,stopped=false,canvas,ctx=null,gl=null,glProgram=null,glBuffer=null,glCount=0,mode='outside',radius=112,angle=-.72,elevation=1.12,topDown=false;
+  let drag=new Map(),pinch=null,scene=[];const listeners=[];
+  const palette={white:'#eee8de',cream:'#f8f1e6',stone:'#c6bbad',blue:'#607e8c',roof:'#647170',grass:'#60735f',sand:'#bcb5aa',wall:'#d9cfbf',trim:'#f4eee4',dark:'#514c43',floor:'#b9aea2',interior:'#cbbca7'};
+  const byLevel={ground:0,state:4.35,second:8.75,third:12.5,sub1:-3.2,sub2:-6.6};
+  const publicRooms={
+    state:[['State Dining Room',-19.15,-6.5,12.6,12.6],['Family Dining Room',-19.15,7.3,12.6,10],['Red Room',-8.5,-6.5,8.7,11],['Blue Room',0,-6.5,8.2,11],['Green Room',8.5,-6.5,8.7,11],['Cross Hall',0,2.15,25,4.2],['Entrance Hall',0,8.3,14,8],['East Room',19.45,0,12.3,25]],
+    ground:[['Map Room',-17.5,-5.2,8,10],['Diplomatic Reception Room',-7,-5.6,9,9],['China Room',2,-5.6,7,9],['Vermeil Room',10.2,-5.6,8,9],['Library',19.2,-5.6,10,9],['Ground Floor Corridor',0,4.7,44,4]]
+  };
+  const addPoly=(v,c,k=1)=>scene.push({v,c,k});
+  function box(x,y,z,w,h,d,color){
+    const a=x-w/2,b=x+w/2,lo=y-h/2,hi=y+h/2,q=z-d/2,r=z+d/2;
+    const v=[[a,lo,q],[b,lo,q],[b,hi,q],[a,hi,q],[a,lo,r],[b,lo,r],[b,hi,r],[a,hi,r]];
+    const faces=[[[0,1,2,3],.70],[[5,4,7,6],.82],[[4,0,3,7],.88],[[1,5,6,2],.76],[[3,2,6,7],1.18],[[4,5,1,0],.55]];
+    for(const [ids,k] of faces)addPoly(ids.map(i=>v[i]),color,k);
+  }
+  function rod(x,y,z,r,h,color,n=10){
+    const poly=[];for(let i=0;i<n;i++){const a=i*Math.PI*2/n;poly.push([x+Math.cos(a)*r,y,z+Math.sin(a)*r]);}
+    for(let i=0;i<n;i++){
+      const j=(i+1)%n;
+      addPoly([poly[i],poly[j],[poly[j][0],y+h,poly[j][2]],[poly[i][0],y+h,poly[i][2]]],color,.74+(i/n)*.31);
+    }
+    addPoly(poly.map(p=>[p[0],y+h,p[2]]),color,1.16);
+  }
+  function column(x,y,z,height=.1,r=.27){
+    box(x,y+.07,z,r*3,.14,r*3,palette.cream);
+    rod(x,y+.14,z,r,height-.3,palette.white,12);
+    box(x,y+height-.08,z,r*3.1,.16,r*3.1,palette.cream);
+  }
+  function wallZ(z,a,b,y,h,openings=[]){
+    const sorted=openings.map(([center,w])=>[center-w/2,center+w/2]).sort((a,b)=>a[0]-b[0]);
+    let cursor=a;
+    for(const [s,e] of sorted){if(s>cursor+.01)box((cursor+s)/2,y+h/2,z,s-cursor,h,.23,palette.wall);cursor=Math.max(cursor,e);}
+    if(cursor<b-.01)box((cursor+b)/2,y+h/2,z,b-cursor,h,.23,palette.wall);
+  }
+  function wallX(x,a,b,y,h,openings=[]){
+    const sorted=openings.map(([center,w])=>[center-w/2,center+w/2]).sort((a,b)=>a[0]-b[0]);
+    let cursor=a;
+    for(const [s,e] of sorted){if(s>cursor+.01)box(x,y+h/2,(cursor+s)/2,.23,h,s-cursor,palette.wall);cursor=Math.max(cursor,e);}
+    if(cursor<b-.01)box(x,y+h/2,(cursor+b)/2,.23,h,b-cursor,palette.wall);
+  }
+  function exterior(){
+    box(0,-.42,0,78,.3,66,palette.grass);
+    const levels=[[0,4.3],[4.3,4.35],[8.65,3.83],[12.48,4.02]];
+    for(let levelIndex=0;levelIndex<levels.length;levelIndex++){
+      const [bottom,h]=levels[levelIndex],sill=levelIndex===0?1.16:.92,wh=levelIndex===0?1.54:levelIndex===3?1.45:2.17,ww=levelIndex===3?1.26:1.67;
+      const xs=[-22.6,-17.6,-12.5,-7.5,-2.4,2.4,7.5,12.5,17.6,22.6];
+      for(const z of [-13.05,13.05]){
+        const zz=z+Math.sign(z)*.15;
+        for(let i=0;i<xs.length;i++){
+          const x=xs[i],wallTop=Math.max(.35,h-sill-wh);
+          box(x,bottom+sill/2,z,ww,sill,.25,palette.white);
+          box(x,bottom+sill+wh+wallTop/2,z,ww,wallTop,.25,palette.white);
+          box(x,bottom+sill+wh/2,zz,ww-.17,wh,.025,palette.blue);
+          box(x,bottom+sill+wh/2,zz+Math.sign(z)*.028,.055,wh,.045,palette.cream);
+          box(x,bottom+sill+wh/2,zz+Math.sign(z)*.028,ww,.055,.045,palette.cream);
+          box(x,bottom+sill,zz,.18,.11,.39,palette.stone);
+          if(i===0)box((-25.6+x-ww/2)/2,bottom+h/2,z,(x-ww/2)+25.6,h,.24,palette.white);
+          if(i<xs.length-1){const next=xs[i+1];box((x+next)/2,bottom+h/2,z,next-x-ww,h,.24,palette.white);}
+          if(i===xs.length-1)box((x+ww/2+25.6)/2,bottom+h/2,z,25.6-x-ww/2,h,.24,palette.white);
         }
-        frame=requestAnimationFrame(draw);
-      }draw();
-      addEventListener('pagehide',()=>{cancelAnimationFrame(frame);renderer.dispose();});
-    }catch(e){console.error('WebGL-Ansicht nicht verfügbar:',e);document.querySelectorAll('#scene canvas:not(#local-3d-fallback)').forEach(element=>element.remove());error.style.display='none';status.textContent='Lokale 3D-Ansicht wird aktiviert.';window.__architectureFallback?.start();}
+        box(0,bottom+h-.08,z,51.5,.16,.42,palette.trim);
+      }
+      const zs=[-10,-5,0,5,10];
+      for(const x of [-25.6,25.6]){
+        for(let j=0;j<zs.length;j++){
+          const z=zs[j],side=Math.sign(x),wx=x+side*.14,ww2=ww;
+          box(x,bottom+sill/2,z,.24,sill,ww2,palette.white);
+          box(x,bottom+sill+wh+(h-sill-wh)/2,z,.24,h-sill-wh,ww2,palette.white);
+          box(wx,bottom+sill+wh/2,z,.025,wh,ww2-.12,palette.blue);
+          box(wx+side*.028,bottom+sill+wh/2,z,.040,wh,.045,palette.trim);
+          if(j===0)box(x,bottom+h/2,(-13.05+z-ww2/2)/2,.22,h,z-ww2/2+13.05,palette.white);
+          if(j<zs.length-1)box(x,bottom+h/2,(z+zs[j+1])/2,.22,h,zs[j+1]-z-ww2,palette.white);
+          if(j===zs.length-1)box(x,bottom+h/2,(z+ww2/2+13.05)/2,.22,h,13.05-z-ww2/2,palette.white);
+        }
+      }
+      box(0,bottom+.11,0,51.35,.22,26.2,palette.stone);
+    }
+    box(0,16.63,0,51.7,.25,26.5,palette.roof);
+    for(const z of [-13.15,13.15])box(0,17.03,z,51.7,.7,.28,palette.trim);
+    for(const x of [-25.72,25.72])box(x,17.03,0,.28,.7,26.6,palette.trim);
+    for(const x of [-21,-14.5,14.5,21])for(const z of [-7.8,7.8])box(x,17.55,z,.76,1.4,.76,palette.stone);
+    // Public North Portico: pilasters, columns and classical pediment.
+    box(0,4.18,16.25,13.5,.32,6.25,palette.stone);
+    for(const x of [-5.4,-1.8,1.8,5.4])column(x,4.32,17.45,8.25,.27);
+    for(const x of [-5.4,5.4])column(x,4.32,14.75,8.25,.26);
+    box(0,12.61,17.45,13.4,.44,1.65,palette.trim);
+    addPoly([[-7.2,12.83,18.25],[7.2,12.83,18.25],[0,14.75,18.25]],palette.white,.95);
+    // South Portico and curved balcony.
+    for(let i=0;i<6;i++){
+      const a=Math.PI*(.13+i*.148),x=Math.cos(a)*8.1,z=-13.05-6.2*Math.sin(a);
+      column(x,4.25,z,7.9,.27);
+    }
+    box(0,4.15,-15.0,16,.3,4.1,palette.stone);
+    box(0,8.69,-14.4,17.5,.22,3.4,palette.cream);
+    for(let i=0;i<=16;i++){
+      const a=Math.PI*i/16,x=8.55*Math.cos(a),z=-13.05-5.75*Math.sin(a);
+      rod(x,8.80,z,.07,.80,palette.trim,8);
+    }
+  }
+  function interior(level){
+    const y=byLevel[level]||0;
+    box(0,y-.15,0,51.2,.3,26.1,palette.floor);
+    for(const zz of [-13.05,13.05])box(0,y+1.38,zz,51.2,2.76,.13,palette.stone);
+    for(const xx of [-25.6,25.6])box(xx,y+1.38,0,.13,2.76,26.1,palette.stone);
+    if(level==='state'){
+      wallX(-12.7,-13.0,13.0,y,2.65,[[3.0,2.5]]);
+      wallX(13.2,-13.0,13.0,y,2.65,[[2.4,2.5]]);
+      wallZ(1.05,-12.7,13.2,y,2.65,[[-8.3,1.6],[0,1.8],[8.2,1.6]]);
+      wallZ(4.9,-12.7,13.2,y,2.65,[[0,13.3]]);
+      wallX(-4.0,-13,1.05,y,2.65,[[-6.9,2.0]]);
+      wallX(4.0,-13,1.05,y,2.65,[[-6.9,2.0]]);
+      for(const x of [-6.2,-4.1,-2.0,0,2.0,4.1,6.2])column(x,y,4.9,2.6,.16);
+    }
+    if(level==='ground'){
+      wallZ(1.8,-24.6,24.6,y,2.65,[[-17,2],[-7,2],[2,1.9],[10.2,1.9],[19,1.9]]);
+      for(const x of [-12.7,-2.9,6.0,14.7])wallX(x,-13,1.8,y,2.65);
+    }
+  }
+  const addListener=(target,type,fn,opts)=>{target.addEventListener(type,fn,opts);listeners.push([target,type,fn]);};
+  let projectedLabels=[];
+  const vector=(v)=>Math.hypot(...v);
+  const sub=(a,b)=>a.map((v,i)=>v-b[i]);
+  const cross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
+  const normal=v=>{const l=vector(v)||1;return v.map(x=>x/l);};
+  function tint(c,f){
+    const hex=c.replace('#','');const r=parseInt(hex.slice(0,2),16),g=parseInt(hex.slice(2,4),16),b=parseInt(hex.slice(4,6),16);
+    const x=n=>Math.min(255,Math.max(0,Math.round(n*f)));
+    return `rgb(${x(r)},${x(g)},${x(b)})`;
+  }
+  function project(p,camera,forward,right,up,w,h,f){
+    const delta=sub(p,camera),d=delta[0]*forward[0]+delta[1]*forward[1]+delta[2]*forward[2];
+    if(d<.2)return null;
+    return [(w/2)+(delta[0]*right[0]+delta[1]*right[1]+delta[2]*right[2])*f/d,
+      (h/2)-(delta[0]*up[0]+delta[1]*up[1]+delta[2]*up[2])*f/d,d];
+  }
+  // Native WebGL geometry renderer. All meshes are constructed from local 3D coordinates;
+  // no CDN, module loader, or downloaded resources. Canvas2D is the backup when WebGL is unavailable.
+  function setupWebGL(){
+    const context=canvas.getContext('webgl',{antialias:true,alpha:false,powerPreference:'low-power'})
+      ||canvas.getContext('experimental-webgl',{antialias:true,alpha:false});
+    if(!context)return false;
+    gl=context;
+    const vsrc='attribute vec3 aPosition; attribute vec3 aNormal; attribute vec3 aColor; uniform mat4 uViewProjection; varying vec3 vLightColor; void main(){ vec3 light=normalize(vec3(0.4,0.85,0.45)); float diffuse=max(dot(normalize(aNormal),light),0.0); vLightColor=aColor*(0.72+0.28*diffuse); gl_Position=uViewProjection*vec4(aPosition,1.0); }';
+    const fsrc='precision mediump float; varying vec3 vLightColor; void main(){gl_FragColor=vec4(vLightColor,1.0);}';
+    function shader(type,source){const s=gl.createShader(type);gl.shaderSource(s,source);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw new Error('Shader: '+gl.getShaderInfoLog(s));return s;}
+    const vs=shader(gl.VERTEX_SHADER,vsrc),fs=shader(gl.FRAGMENT_SHADER,fsrc);
+    glProgram=gl.createProgram();gl.attachShader(glProgram,vs);gl.attachShader(glProgram,fs);gl.linkProgram(glProgram);
+    if(!gl.getProgramParameter(glProgram,gl.LINK_STATUS))throw new Error('WebGL-Link: '+gl.getProgramInfoLog(glProgram));
+    gl.deleteShader(vs);gl.deleteShader(fs);
+    glBuffer=gl.createBuffer();gl.enable(gl.DEPTH_TEST);gl.depthFunc(gl.LEQUAL);gl.disable(gl.CULL_FACE);
+    gl.clearColor(.68,.75,.81,1);
+    return true;
+  }
+  function rebuildWebGL(){
+    if(!gl)return;
+    const vertices=[];
+    for(const poly of scene){
+      const p=poly.v;if(p.length<3)continue;
+      const a=sub(p[1],p[0]),b=sub(p[2],p[0]),n=normal(cross(a,b));
+      const c=poly.c.replace('#','');
+      const rgb=[0,2,4].map(i=>Math.min(1,parseInt(c.slice(i,i+2),16)/255*poly.k));
+      for(let i=1;i<p.length-1;i++)for(const j of [0,i,i+1]){
+        vertices.push(p[j][0],p[j][1],p[j][2],n[0],n[1],n[2],...rgb);
+      }
+    }
+    gl.bindBuffer(gl.ARRAY_BUFFER,glBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(vertices),gl.STATIC_DRAW);
+    glCount=vertices.length/9;
+  }
+  function multiply(a,b){
+    const out=new Float32Array(16);
+    for(let c=0;c<4;c++)for(let r=0;r<4;r++){
+      out[c*4+r]=a[r]*b[c*4]+a[4+r]*b[c*4+1]+a[8+r]*b[c*4+2]+a[12+r]*b[c*4+3];
+    }
+    return out;
+  }
+  function drawWebGL(){
+    if(!gl||!glProgram)return;
+    const w=canvas.clientWidth,h=canvas.clientHeight;
+    if(w<1||h<1)return;
+    const dpr=Math.min(1.5,devicePixelRatio||1);
+    canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);
+    gl.viewport(0,0,canvas.width,canvas.height);
+    gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
+    const target=[0,mode==='outside'?7.6:(byLevel[mode]||0)+.10,0];
+    const e=Math.max(.045,Math.min(2.7,elevation));
+    const eye=[target[0]+radius*Math.sin(e)*Math.cos(angle),target[1]+radius*Math.cos(e),target[2]+radius*Math.sin(e)*Math.sin(angle)];
+    const forward=normal(sub(target,eye)),right=normal(cross(forward,[0,1,0]));
+    const up=normal(cross(right,forward)),dot=(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
+    const view=new Float32Array([
+      right[0],up[0],-forward[0],0,
+      right[1],up[1],-forward[1],0,
+      right[2],up[2],-forward[2],0,
+      -dot(right,eye),-dot(up,eye),dot(forward,eye),1
+    ]);
+    const f=1/Math.tan(54*Math.PI/360),aspect=w/h,n=.1,far=500;
+    const proj=new Float32Array([f/aspect,0,0,0,0,f,0,0,0,0,(far+n)/(n-far),-1,0,0,2*far*n/(n-far),0]);
+    gl.useProgram(glProgram);
+    gl.uniformMatrix4fv(gl.getUniformLocation(glProgram,'uViewProjection'),false,multiply(proj,view));
+    gl.bindBuffer(gl.ARRAY_BUFFER,glBuffer);
+    const stride=36;
+    for(const [name,offset] of [['aPosition',0],['aNormal',12],['aColor',24]]){
+      const loc=gl.getAttribLocation(glProgram,name);
+      if(loc>=0){gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,3,gl.FLOAT,false,stride,offset);}
+    }
+    gl.drawArrays(gl.TRIANGLES,0,glCount);
+  }
+  function draw(){
+    if(!running)return;
+    if(gl){drawWebGL();return;}
+    if(!ctx)return;
+    const w=canvas.clientWidth,h=canvas.clientHeight,dpr=Math.min(1.7,devicePixelRatio||1);
+    canvas.width=Math.max(1,Math.round(w*dpr));canvas.height=Math.max(1,Math.round(h*dpr));ctx.setTransform(dpr,0,0,dpr,0,0);
+    ctx.fillStyle='#aebfc9';ctx.fillRect(0,0,w,h);
+    const target=[0,mode==='outside'?7.6:(byLevel[mode]||0)+.10,0];
+    const e=Math.max(.045,Math.min(2.70,elevation));
+    const camera=[target[0]+radius*Math.sin(e)*Math.cos(angle),target[1]+radius*Math.cos(e),target[2]+radius*Math.sin(e)*Math.sin(angle)];
+    const forward=normal(sub(target,camera)),right=normal(cross(forward,[0,1,0]));
+    const up=normal(cross(right,forward)),f=h/(2*Math.tan(27*Math.PI/180));
+    const polygons=[];
+    for(const poly of scene){
+      const pts=poly.v.map(v=>project(v,camera,forward,right,up,w,h,f));
+      if(pts.some(p=>!p))continue;
+      const depth=pts.reduce((a,p)=>a+p[2],0)/pts.length;
+      polygons.push({pts,c:poly.c,k:poly.k,depth});
+    }
+    polygons.sort((a,b)=>b.depth-a.depth);
+    ctx.lineJoin='round';ctx.lineWidth=.33;
+    for(const poly of polygons){
+      ctx.beginPath();for(let i=0;i<poly.pts.length;i++){const [x,y]=poly.pts[i];i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);}
+      ctx.closePath();ctx.fillStyle=tint(poly.c,poly.k);ctx.fill();ctx.strokeStyle='rgba(58,60,54,.15)';ctx.stroke();
+    }
+    if(mode==='state'||mode==='ground'){
+      ctx.font='bold 11px -apple-system, system-ui, sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+      for(const [name,x,z] of publicRooms[mode]){
+        const p=project([x,(byLevel[mode]||0)+.07,z],camera,forward,right,up,w,h,f);
+        if(!p)continue;
+        const measured=ctx.measureText(name).width;
+        ctx.fillStyle='rgba(27,43,36,.84)';ctx.fillRect(p[0]-measured/2-6,p[1]-11,measured+12,22);
+        ctx.fillStyle='#f4edde';ctx.fillText(name,p[0],p[1]);
+      }
+    }
+  }
+  function selectLevel(value){
+    mode=Object.hasOwn(byLevel,value)?value:'outside';scene=[];
+    if(mode==='outside')exterior();else interior(mode);
+    rebuildWebGL();
+    topDown=mode!=='outside';elevation=topDown?.16:1.10;angle=-.72;
+    radius=innerWidth<650?(mode==='outside'?129:116):(mode==='outside'?96:87);
+    TOP.textContent=topDown?'Schrägansicht':'Draufsicht';
+    STATUS.textContent=mode==='outside'
+      ?'Lokale 3D-Ansicht aktiv · Architekturentwurf A0.1.2 · Haus drehen oder zoomen.'
+      :((mode==='state'||mode==='ground')?'Schematische Raumwände · keine vermessenen Innenpläne.':'Nur Geschosshülle – private Räume nicht nachgebildet.');
+    draw();
+  }
+  function pointerDown(e){canvas.setPointerCapture(e.pointerId);drag.set(e.pointerId,{x:e.clientX,y:e.clientY});}
+  function pointerMove(e){
+    if(!drag.has(e.pointerId))return;
+    const prev=drag.get(e.pointerId),dx=e.clientX-prev.x,dy=e.clientY-prev.y;
+    drag.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if(drag.size===1){angle-=dx*.007;elevation=Math.max(.045,Math.min(2.7,elevation-dy*.006));draw();}
+    else if(drag.size===2){const [p,q]=[...drag.values()],d=Math.hypot(p.x-q.x,p.y-q.y);if(pinch){radius=Math.max(32,Math.min(200,radius*pinch/d));draw();}pinch=d;}
+  }
+  function pointerEnd(e){drag.delete(e.pointerId);if(drag.size<2)pinch=null;}
+  function start(){
+    if(stopped||running)return;
+    running=true;canvas=document.createElement('canvas');canvas.id='local-3d-fallback';canvas.style.cssText='position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;';
+    SCENE.appendChild(canvas);
+    canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();STATUS.textContent='Grafikkontext verloren – bitte Seite neu laden.';});
+    try{setupWebGL();}catch(ex){console.warn('WebGL nicht verfügbar, Canvas-Ersatz aktiv',ex);gl=null;}
+    if(!gl)ctx=canvas.getContext('2d',{alpha:false});
+    if(!gl&&!ctx){STATUS.textContent='3D-Anzeige nicht möglich. Bitte Safari neu starten.';return;}
+    document.querySelector('#static-house')?.remove();
+    const indicator=document.querySelector('#renderer-kind');if(indicator)indicator.textContent=gl?'3D · WebGL lokal':'3D · Canvas lokal';
+    FLOOR.value=FLOOR.value||'outside';selectLevel(FLOOR.value);
+    addListener(FLOOR,'change',()=>selectLevel(FLOOR.value));
+    addListener(TOP,'click',()=>{topDown=!topDown;elevation=topDown?.08:1.10;TOP.textContent=topDown?'Schrägansicht':'Draufsicht';draw();});
+    addListener(canvas,'pointerdown',pointerDown);addListener(canvas,'pointermove',pointerMove);
+    addListener(canvas,'pointerup',pointerEnd);addListener(canvas,'pointercancel',pointerEnd);
+    addListener(canvas,'wheel',e=>{e.preventDefault();radius=Math.max(32,Math.min(200,radius*(e.deltaY>0?1.08:.92)));draw();},{passive:false});
+    addListener(window,'resize',draw);
+    console.info('Architektur A0.1.2: eigenständige lokale 3D-Darstellung gestartet.');
+  }
+  function stop(){
+    stopped=true;running=false;for(const [t,event,fn] of listeners)t.removeEventListener(event,fn);
+    canvas?.remove();
+  }
+  window.__architectureFallback={start,stop,get active(){return running;}};
+  // Non-blocking start: if Three.js does not resolve on mobile, show local model.
+  try{start();}catch(err){console.error(err);STATUS.textContent='Startfehler: '+err.message;document.querySelector('#error').style.display='block';document.querySelector('#error').textContent='Die lokale Architekturansicht konnte nicht gestartet werden: '+err.message;}
+  addListener(window,'unhandledrejection',ev=>{
+    console.warn('Architektur-Bibliothek konnte nicht geladen werden:',ev.reason);
+    if(!window.__architecture3DReady)start();
+  });
+})();
+
   </script>
 </body>
 </html>
