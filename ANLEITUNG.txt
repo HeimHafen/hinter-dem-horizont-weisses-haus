@@ -1,14 +1,11 @@
-Nordtreppe A0.1.9 – Working Copy
+WH Nordtreppe A0.2.0 für Working Copy
 
-1. A0.1.8 sichern.
-2. Neuen Testbranch aus dem AKTUELLEN funktionierenden Stand erstellen: test/nordtreppe-a019.
-3. ZIP entpacken; index.html im Repository-Hauptordner ersetzen.
-4. assets/Weisses-Haus-Nord-A019.glb in assets/ ablegen. A018 nicht löschen.
-5. Beide Dateien committen und neuen Branch nach origin pushen.
-6. GitHub Pages zeigt den Testbranch nur, wenn dieser veröffentlicht wird (oder nach explizitem Merge).
+1) A0.1.9-Bestand sichern. Branch aus deinem tatsächlichen A0.1.9-Branch erstellen.
+2) ZIP in der Dateien-App entpacken.
+3) `index.html` im Repository-ROOT ersetzen.
+4) `assets/Weisses-Haus-Nord-A020.glb` in den bestehenden `assets`-Ordner legen.
+5) In Working Copy beide Dateien committen und zu refs/heads/test/nordtreppe-a020 pushen. Force Push Aus.
+6) Der neue Testbranch wird NICHT automatisch von GitHub Pages gezeigt, solange Pages auf main steht.
+7) Prüfe beide Seiten in 45°-Ansichten, zusätzlich Frontalansicht.
 
-Commit: Nordtreppe A0.1.9 – echte geschwungene 3D-Steinwangen und Eckpfeiler
-Remote: refs/heads/test/nordtreppe-a019
-Force Push: Aus
-
-Zur Prüfung: Frontalansicht und jeweils 45-Grad-Schrägansicht beider seitlicher Treppenabschlüsse.
+Zusammenfassung: Nordtreppe A0.2.0 – Seitliche Steinwangen nahtlos modelliert, Eckpfeiler korrigiert
